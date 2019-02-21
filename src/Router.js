@@ -23,10 +23,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import EditProfile from './components/profile/EditProfile';
-import CreateHighlight from './components/highlighteds/CreateHighlight';
-import EditHighlight from './components/highlighteds/EditHighlight';
-import Highlight from './components/highlighteds/Highlight';
-import ConfigPost from './components/post/ConfigPost';
+
 
 // const HomeIcon = () => <Ionicons name="md-home" size={25} />;
 // const ExploreIcon = () => <Ionicons name="md-search" size={25} />;
@@ -57,11 +54,7 @@ const RouterComponent = () => (
           <Scene key="stats" component={Stats} icon={StatsIcon} hideNavBar />
           <Scene key="settings" component={Settings} icon={SettingsIcon} hideNavBar/>
         </Tabs>
-        <Scene key="configPost" component={ConfigPost} />
         <Scene key="editProfile" component={EditProfile} />
-        <Scene key="createHighlight" component={CreateHighlight} />
-        <Scene key="editHighlight" component={EditHighlight} />
-        <Scene key="highlight" component={Highlight} />
         <Scene key="activityComplete" component={ActivityComplete}/>
       </Stack>
     </Stack>
