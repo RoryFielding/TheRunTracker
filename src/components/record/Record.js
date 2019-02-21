@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
-import { Text, View, StyleSheet, Image, TouchableHighlight, TouchableOpacity } from 'react-native';
-import { MapView, Location, Permissions } from 'expo';
+import { Text, View, StyleSheet, Image, TouchableHighlight, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { Location, Permissions } from 'expo';
 import TimeFormatter from 'minutes-seconds-milliseconds';
 import pick from 'object.pick';
 import { addActivityInfo } from '../../actions/ActivityActions';
-import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 
-const LATITUDE = 29.95539;
-const LONGITUDE = 78.07513;
+// const LATITUDE = 29.95539;
+// const LONGITUDE = 78.07513;
 const latDelta = 0.009;
 const lngDelta = 0.009;
 const GEOLOCATION_OPTIONS = { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 };
@@ -31,8 +30,8 @@ class Record extends Component {
     LapTimer: null,
     mainTimerStart: null,
     LapTimerStart: null,
-    latitude: LATITUDE,
-    longitude: LONGITUDE,
+    latitude: '',
+    longitude: '',
     latDelta: latDelta,
     lngDelta: lngDelta,
     mapSnapshot: ''
@@ -79,6 +78,8 @@ class Record extends Component {
       this.setState({
         errorMessage: 'Permission to access location was denied',
       });
+    }else {
+      this.setState({ hasLocationPermissions: true });
     }
 
     let location = await Location.getCurrentPositionAsync({});
@@ -305,6 +306,21 @@ class Record extends Component {
   render() {
     return (
       <View style={styles.container}>
+{
+        this.state.location === null ?
+        <View style={styles.container}> 
+            <ActivityIndicator />
+            <Text>Finding your current location...</Text>
+        </View> :
+            this.state.hasLocationPermissions === false ?
+            <View style={styles.container}> 
+            <ActivityIndicator />
+              <Text>Location permissions are not granted.</Text> 
+              </View> :
+              this.state.region === null ?
+                <Text>Map region doesn't exist.</Text> :
+                
+<View style={styles.container}>
         <Expo.MapView
           style={styles.mapView}
           showsUserLocation={true}
@@ -352,6 +368,8 @@ class Record extends Component {
           {this._renderStartButton()}
           {this._renderFinishButton()}
         </View>
+        </View>
+}
       </View>
     );
   }

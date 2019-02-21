@@ -1,168 +1,227 @@
 import React, { Component } from 'react';
-import { ScrollView, View, Image, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
+import { ScrollView, View, Image, Text, StyleSheet, TextInput, ActivityIndicator } from 'react-native';
 import TimeFormatter from 'minutes-seconds-milliseconds';
-import firebase from 'firebase';
+import { fetchActivity, completeActivityInfo } from '../../actions/ActivityActions';
+import { connect } from 'react-redux';
+import Button from '../common/Button';
+import Input from '../common/Input';
+import { Actions } from 'react-native-router-flux';
 
-export default class ActivityComplete extends Component {
+class ActivityComplete extends Component {
 
-  constructor(props) {
-    super(props);
+    constructor(props) {
+        super(props);
 
-    this.state = {
-      notes: '',
-      date: '',
+        this.state = {
+            notes: '',
+            date: '',
+        }
     }
-  }
 
-  componentDidMount() {
-    var date = new Date().getDate(); //Current Date
-    var month = new Date().getMonth() + 1; //Current Month
-    var year = new Date().getFullYear(); //Current Year
-    var hours = new Date().getHours(); //Current Hours
-    var min = new Date().getMinutes(); //Current Minutes
-    var sec = new Date().getSeconds(); //Current Seconds
-    this.setState({
-      //Setting the value of the date time
-      date:
-        date + '/' + month + '/' + year + ' ' + hours + ':' + min + ':' + sec,
-    });
-  }
+    componentWillMount() {
+        this.props.fetchActivity();
+    }
 
-  render() {
-      console.log(this.props);
-      console.log(this.state)
+    componentWillReceiveProps(nextProps) {
+        if (this.props !== nextProps) {
+            console.log(nextProps);
+            this.setState({
+                distanceTravelled: nextProps.activity.distanceTravelled,
+                speed: nextProps.activity.speed,
+                kCal: nextProps.activity.kCal,
+                mainTimer: nextProps.activity.mainTimer,
+                mapSnapshot: nextProps.activity.mapSnapshot
+            });
+        }
+    }
 
-    return (
-      <ScrollView style={styles.container}>
-      <View style={styles.container2}>
+    componentDidMount() {
+        var date = new Date().getDate(); //Current Date
+        var month = new Date().getMonth() + 1; //Current Month
+        var year = new Date().getFullYear(); //Current Year
+        var hours = new Date().getHours(); //Current Hours
+        var min = new Date().getMinutes(); //Current Minutes
+        var sec = new Date().getSeconds(); //Current Seconds
+        this.setState({
+            //Setting the value of the date time
+            date:
+                date + '/' + month + '/' + year + ' ' + hours + ':' + min + ':' + sec,
+        });
+    }
 
-        <Image style={{ width: 260, height: 160 }}
-          source={require('../../../assets/images/icon3.png')} />
-        <Text style={styles.titleText}>Completed Activity</Text>
-          <Text style={styles.activityText}>
-            Date/Time: 
+    renderButton1() {
+        return <Button textButton="SAVE" onPress={this.onPress.bind(this)} />;
+    }
+
+    renderButton2() {
+        return <Button textButton="BACK" onPress={this.onGoBack.bind(this)} />;
+    }
+
+    onGoBack = () => {
+        Actions.record();
+      };
+
+    onPress = () => {
+        this.props.completeActivityInfo(this.state.distanceTravelled, this.state.speed, this.state.kCal, this.state.mainTimer, this.state.notes)
+    };
+
+
+    onChangeNotes = text => {
+        this.setState({
+            notes: text
+        })
+    }
+
+    renderText() {
+        if (this.state.mapSnapshot) {
+            return (
+                <View style={styles.container}>
+                    <View style={styles.rowWrap}>
+                        <Text style={styles.activityText2}>
+                            Distance: {parseFloat(this.state.distanceTravelled.toFixed(2))} km
+      </Text>
+                        <Text style={styles.activityText2}>
+                            Speed: {parseFloat(this.state.speed.toFixed(2))} kmph
+      </Text>
+                    </View>
+                    <View style={styles.rowWrap}>
+                        <Text style={styles.activityText2}>
+                            Time: {TimeFormatter(this.state.mainTimer)}
+                        </Text>
+                        <Text style={styles.activityText2}>
+                            kCal Burned: {parseFloat(this.state.kCal.toFixed(2))}
+                        </Text>
+                        <Text style={styles.activityText3}>
+                            Route Snapsnot:
           </Text>
+                        <Image style={{ width: 260, height: 160, marginVertical: 10 }}
+                            source={{ uri: this.state.mapSnapshot }} />
+                    </View>
+                </View>
+            );
+        }
+        else {
+            return <ActivityIndicator />;
+        }
+    }
 
-          <View style={styles.rowWrap}>
-            <Text style={styles.activityText2}>
-              Distance: 
-          </Text>
-            <Text style={styles.activityText2}>
-              Speed: 
-          </Text>
-          </View>
+    render() {
+        return (
+            <ScrollView style={styles.container}>
+                <View style={styles.container2}>
 
-          <View style={styles.rowWrap}>
-            <Text style={styles.activityText2}>
-              Time: 
-            </Text>
-            <Text style={styles.activityText2}>
-              kCal Burned: 
-            </Text>
-            </View>
-            <Text style={styles.activityText3}>
-            Notes: 
+                    <Image style={{ width: 260, height: 160 }}
+                        source={require('../../../assets/images/icon3.png')} />
+                    <Text style={styles.titleText}>Completed Activity</Text>
+                    <Text style={styles.activityText}>
+                        Date/Time: {this.state.date}
+                    </Text>
+                    {this.renderText()}
+                    <Text style={styles.activityText3}>
+                        Notes:
           </Text>
-          <TextInput style={styles.inputBox}
-            underlineColorAndroid='rgba(0,0,0,0)'
-            placeholder="Notes"
-            placeholderTextColor="#ffffff"
-            selectionColor="#fff"
-            keyboardType="email-address"
-            value={this.state.notes}
-            blurOnSubmit={false}
-          />
+                    <Input placeholder="Notes"
+                        onChange={this.onChangeNotes.bind(this)}
+                        value={this.state.notes} />
+                    {this.renderButton1()}
+                    {this.renderButton2()}
+                </View>
+            </ScrollView>
 
-          <Text style={styles.activityText3}>
-            Route Snapsnot:
-          </Text>
-        </View>
-      </ScrollView>
-
-    );
-  }
+        );
+    }
 }
 
+const mapStateToProps = state => ({
+    activity: state.activity.activity,
+});
+
+export default connect(
+    mapStateToProps,
+    { fetchActivity, completeActivityInfo }
+)(ActivityComplete);
+
 const styles = StyleSheet.create({
-  container: {
-    backgroundColor: '#1C272A',
-    flexGrow: 1,
-},
-container2: {
-    backgroundColor: '#1C272A',
-    flexGrow: 1,
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-  signupButton: {
-    color: '#4CA4B0',
-    fontSize: 16,
-    fontWeight: '500'
-  },
-  signupTextCont: {
-    flexGrow: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingVertical: 16,
-    flexDirection: 'row'
-  },
-  activityText: {
-    color: 'rgba(255,255,255,0.6)',
-    fontSize: 18,
-  },
-  activityText2: {
-    color: 'rgba(255,255,255,0.6)',
-    fontSize: 18,
-    paddingHorizontal: 20
-  },
-  activityText3: {
-    color: 'rgba(255,255,255,0.6)',
-    fontSize: 18,
-  },
-  titleText: {
-    color: 'rgba(255,255,255,0.6)',
-    fontSize: 32,
-    top: -35,
-    borderColor: 'black'
-  },
-  title2Text: {
-    color: 'rgba(255,255,255,0.6)',
-    fontSize: 22,
-    borderColor: 'black'
-  },
-  buttonText: {
-    fontSize: 32,
-    color: 'blue',
-    right: 25,
-  },
-  rowWrap: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingVertical: 5
-  },
-  inputBox: {
-    width: 300,
-    backgroundColor: '#0C2331',
-    borderRadius: 25,
-    paddingHorizontal: 16,
-    fontSize: 16,
-    color: '#ffffff',
-    marginVertical: 10,
-    paddingVertical: 16,
-  },
-  button: {
-    width: 300,
-    backgroundColor: '#4CA4B0',
-    borderRadius: 25,
-    marginVertical: 10,
-    paddingVertical: 16,
-  },
-  buttonText: {
-    fontSize: 16,
-    fontWeight: '500',
-    color: '#ffffff',
-    textAlign: 'center'
-  },
+    container: {
+        backgroundColor: '#1C272A',
+        flexGrow: 1,
+    },
+    container2: {
+        backgroundColor: '#1C272A',
+        flexGrow: 1,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    signupButton: {
+        color: '#4CA4B0',
+        fontSize: 16,
+        fontWeight: '500'
+    },
+    signupTextCont: {
+        flexGrow: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingVertical: 16,
+        flexDirection: 'row'
+    },
+    activityText: {
+        color: 'rgba(255,255,255,0.6)',
+        fontSize: 18,
+    },
+    activityText2: {
+        color: 'rgba(255,255,255,0.6)',
+        fontSize: 18,
+        paddingHorizontal: 20,
+        paddingVertical: 10,
+    },
+    activityText3: {
+        color: 'rgba(255,255,255,0.6)',
+        fontSize: 18,
+    },
+    titleText: {
+        color: 'rgba(255,255,255,0.6)',
+        fontSize: 32,
+        top: -35,
+        borderColor: 'black'
+    },
+    title2Text: {
+        color: 'rgba(255,255,255,0.6)',
+        fontSize: 22,
+        borderColor: 'black'
+    },
+    buttonText: {
+        fontSize: 32,
+        color: 'blue',
+        right: 25,
+    },
+    rowWrap: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingVertical: 5
+    },
+    inputBox: {
+        width: 300,
+        backgroundColor: '#0C2331',
+        borderRadius: 25,
+        paddingHorizontal: 16,
+        fontSize: 16,
+        color: '#ffffff',
+        marginVertical: 10,
+        paddingVertical: 16,
+    },
+    button: {
+        width: 300,
+        backgroundColor: '#4CA4B0',
+        borderRadius: 25,
+        marginVertical: 10,
+        paddingVertical: 16,
+    },
+    buttonText: {
+        fontSize: 16,
+        fontWeight: '500',
+        color: '#ffffff',
+        textAlign: 'center'
+    },
 });
