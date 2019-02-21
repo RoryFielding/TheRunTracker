@@ -3,14 +3,18 @@ import { Text, View, StyleSheet, Image, TouchableHighlight, TouchableOpacity } f
 import { MapView, Location, Permissions } from 'expo';
 import TimeFormatter from 'minutes-seconds-milliseconds';
 import pick from 'object.pick';
+import { addActivityInfo } from '../../actions/ActivityActions';
+import { Actions } from 'react-native-router-flux';
+import { connect } from 'react-redux';
 
 const LATITUDE = 29.95539;
 const LONGITUDE = 78.07513;
-const LATITUDE_DELTA = 0.009;
-const LONGITUDE_DELTA = 0.009;
+const latDelta = 0.009;
+const lngDelta = 0.009;
 const GEOLOCATION_OPTIONS = { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 };
+var geo = require('node-geo-distance');
 
-export default class Record extends Component {
+class Record extends Component {
   state = {
     mapRegion: null,
     hasLocationPermissions: false,
@@ -29,36 +33,117 @@ export default class Record extends Component {
     LapTimerStart: null,
     latitude: LATITUDE,
     longitude: LONGITUDE,
+    latDelta: latDelta,
+    lngDelta: lngDelta,
+    mapSnapshot: ''
   };
-
-  componentDidMount() {
-    this._getLocationAsync();
-    Location.watchPositionAsync(GEOLOCATION_OPTIONS, this.locationChanged);
-  }
 
   _handleMapRegionChange = mapRegion => {
-     console.log(mapRegion);
-     this.setState({ mapRegion });
+    console.log(mapRegion);
+    this.setState({ mapRegion });
   };
 
+  componentWillMount() {
+    Location.watchPositionAsync(GEOLOCATION_OPTIONS, this.locationChanged);
+    this._getLocationAsync();
+  }
 
+  calcDistance = newLatLng => {
+    distanceTravelled = this.state.distanceTravelled;
+    var arridx = this.state.lineCoordinates.length;
+
+
+    if (arridx < 1) {
+      return;
+    }
+
+    var coord1 = {
+      latitude: newLatLng.latitude,
+      longitude: newLatLng.longitude
+    }
+
+    if (arridx > 1) {
+      let coord2 = this.state.prevLatLng;
+
+      var haversineDist = geo.haversineSync(coord1, coord2);
+
+      this.setState({
+        distanceTravelled: distanceTravelled + (haversineDist / 1000)
+      })
+    }
+  };
 
   _getLocationAsync = async () => {
     let { status } = await Permissions.askAsync(Permissions.LOCATION);
     if (status !== 'granted') {
       this.setState({
-        locationResult: 'Permission to access location was denied',
+        errorMessage: 'Permission to access location was denied',
       });
-    } else {
-      this.setState({ hasLocationPermissions: true });
     }
 
     let location = await Location.getCurrentPositionAsync({});
-    this.setState({ location: JSON.stringify(location) });
-
-    // Center the map on the location we just fetched.
-    this.setState({ mapRegion: { latitude: location.coords.latitude, longitude: location.coords.longitude, latitudeDelta: 0.0922, longitudeDelta: 0.0421 } });
+    this.setState({ location });
   };
+
+  locationChanged = (location) => {
+
+    //delcarations
+    const { routeCoordinates } = this.state
+    const { lineCoordinates } = this.state
+    const { distanceTravelled } = this.state
+    const positionLatLngs = pick(location.coords, ['latitude', 'longitude'])
+    const newCoordinate = this.state.location.coords;
+    isRunning = this.state.isRunning;
+
+    //when user presses start
+    if (isRunning === true) {
+      //begin calculating distance
+      this.calcDistance(newCoordinate)
+      //append route coordinates 
+      this.setState({ lineCoordinates: lineCoordinates.concat(positionLatLngs) })
+    }
+
+    //update user location and map drawn
+    region = {
+      latitude: location.coords.latitude,
+      longitude: location.coords.longitude,
+      latitudeDelta: 0.1,
+      longitudeDelta: 0.05,
+    },
+      this.setState({ location, region })
+
+    //set previous coord and update all data
+    this.setState({ prevLatLng: routeCoordinates[this.state.routeCoordinates.length - 1] })
+    this.setState({ routeCoordinates: routeCoordinates.concat(positionLatLngs) })
+
+    //set speed
+    if (location.coords.speed > 0) {
+      this.setState({ speed: location.coords.speed });
+    }
+    //when not moving api returns -1 for speed so set 0 in this case
+    else {
+      this.setState({ speed: 0 })
+    }
+
+    //Calculate calories burned placeholder
+    //Men use the following formula:
+    //Calories Burned = [(Age x 0.2017) — (Weight x 0.09036) + (Heart Rate x 0.6309) — 55.0969] x Time / 4.184.
+    //Women use the following formula:
+    //Calories Burned = [(Age x 0.074) — (Weight x 0.05741) + (Heart Rate x 0.4472) — 20.4022] x Time / 4.184.
+
+    //Less accurate:
+    //Running (total calories spent per km) 
+    //.75 x your weight (in lbs.)
+
+    //total cal burned in a km
+    var kCal = (0.75 * 65) / 1000
+    var mTravlled = (distanceTravelled * 1000)
+
+    kCal = mTravlled * kCal;
+    if (kCal > 0) {
+      this.setState({ kCal: kCal })
+    }
+  }
 
   _renderKcal() {
     return (
@@ -167,21 +252,21 @@ export default class Record extends Component {
     let { isRunning, mainTimerStart } = this.state;
     //Reset button clicked
     if (mainTimerStart && !isRunning) {
-      laps: [],
-        this.setState({
-          mainTimerStart: null,
-          LapTimerStart: null,
-          mainTimer: 0,
-          LapTimer: 0,
-          kCal: 0,
-          speed: 0,
-          distanceTravelled: 0,
-          routeCoordinates: [],
-          lineCoordinates: [],
-          prevLatLng: {},
-        });
+      this.setState({
+        mainTimerStart: null,
+        LapTimerStart: null,
+        mainTimer: 0,
+        LapTimer: 0,
+        kCal: 0,
+        speed: 0,
+        distanceTravelled: 0,
+        routeCoordinates: [],
+        lineCoordinates: [],
+        prevLatLng: {},
+      });
     }
 
+    //Finish button clicked
     if (isRunning) {
       // 'takeSnapshot' takes a config object with the
       // following options
@@ -196,81 +281,95 @@ export default class Record extends Component {
         this.setState({ mapSnapshot: uri });
       });
       snapshot.then((uri => {
-        this.props.navigation.navigate('Activity', {
-          distanceTravelled: this.state.distanceTravelled,
-          speed: this.state.speed,
-          kCal: this.state.kCal,
-          mainTimer: this.state.mainTimer,
-          mapSnapshot: this.state.mapSnapshot
+        this.props.addActivityInfo(this.state.distanceTravelled, this.state.speed, this.state.kCal, this.state.mainTimer, this.state.mapSnapshot)
+      }))
+      snapshot.then((uri => {
+        clearInterval(this.interval);
+        this.setState({
+          isRunning: false,
+          mainTimerStart: null,
+          LapTimerStart: null,
+          mainTimer: 0,
+          LapTimer: 0,
+          kCal: 0,
+          speed: 0,
+          distanceTravelled: 0,
+          routeCoordinates: [],
+          lineCoordinates: [],
+          prevLatLng: {},
         });
       }))
     };
   }
 
-
-
-
   render() {
-    console.log(this.state.location)
-
     return (
       <View style={styles.container}>
-        {
-          this.state.location === null ?
-            <Text>Finding your current location...</Text> :
-            this.state.hasLocationPermissions === false ?
-              <Text>Location permissions are not granted.</Text> :
-              this.state.mapRegion === null ?
-                <Text>Map region doesn't exist.</Text> :
+        <Expo.MapView
+          style={styles.mapView}
+          showsUserLocation={true}
+          region={{
+            latitude: this.state.location.coords.latitude,
+            longitude: this.state.location.coords.longitude,
+            latitudeDelta: this.state.latDelta,
+            longitudeDelta: this.state.lngDelta
+          }}
+          ref={map => { this.map = map }}
+        >
 
-                <View style={styles.container}>
-                  <MapView
-                    style={styles.mapView}
-                    region={this.state.mapRegion}
-                    onRegionChange={this._handleMapRegionChange}
-                    showsUserLocation={true} >
-                  </MapView>
-                  <MapView.Polyline
-                    coordinates={this.state.lineCoordinates}
-                    strokeColor="#000" // fallback for when `strokeColors` is not supported by the map-provider
-                    strokeColors={[
-                      '#7F0000',
-                      '#00000000', // no color, creates a "long" gradient between the previous and next coordinate
-                      '#B24112',
-                      '#E5845C',
-                      '#238C23',
-                      '#7F0000'
-                    ]}
-                    strokeWidth={6}
-                  />
-                  <View style={styles.map}>
-                    <View style={{ flex: 1 }}>
-                      <View style={{ flex: 2, backgroundColor: '#1C272A' }} >
-                        <Image style={{ width: 260, height: 160, marginHorizontal: 60, marginTop: -40 }}
-                          source={require('../../../assets/images/icon3.png')} />
-                      </View>
-                      <View style={{ flex: 3 }} />
-                    </View>
-                  </View>
-                  <View style={styles.stats}>
-                    {this._renderTimers()}
-                    <View style={styles.buttonContainer}>
-                      {this._renderDistance()}
-                      {this._renderSpeed()}
-                    </View>
-                    {this._renderKcal()}
-                  </View>
-                  <View style={styles.buttonWrapper}>
-                    {this._renderStartButton()}
-                    {this._renderFinishButton()}
-                  </View>
-                </View>
-        }
+          <Expo.MapView.Polyline
+            coordinates={this.state.lineCoordinates}
+            strokeColor="#000" // fallback for when `strokeColors` is not supported by the map-provider
+            strokeColors={[
+              '#7F0000',
+              '#00000000', // no color, creates a "long" gradient between the previous and next coordinate
+              '#B24112',
+              '#E5845C',
+              '#238C23',
+              '#7F0000'
+            ]}
+            strokeWidth={6}
+          />
+        </Expo.MapView>
+        <View style={styles.map}>
+          <View style={{ flex: 1 }}>
+            <View style={{ flex: 2, backgroundColor: '#1C272A' }} >
+              <Image style={{ width: 260, height: 160, marginHorizontal: 60, marginTop: -40 }}
+                source={require('../../../assets/images/icon3.png')} />
+            </View>
+            <View style={{ flex: 3 }} />
+          </View>
+        </View>
+        <View style={styles.stats}>
+          {this._renderTimers()}
+          <View style={styles.buttonContainer}>
+            {this._renderDistance()}
+            {this._renderSpeed()}
+          </View>
+          {this._renderKcal()}
+        </View>
+        <View style={styles.buttonWrapper}>
+          {this._renderStartButton()}
+          {this._renderFinishButton()}
+        </View>
       </View>
-
     );
   }
+
 }
+
+const mapStateToProps = state => ({
+  distanceTravelled: state.distanceTravelled,
+  speed: state.speed,
+  kCal: state.kCal,
+  mainTimer: state.mainTimer,
+  mapSnapshot: state.mapSnapshot
+});
+
+export default connect(
+  mapStateToProps,
+  { addActivityInfo }
+)(Record);
 
 const styles = StyleSheet.create({
   container: {

@@ -17,6 +17,7 @@ import Record from './components/record/Record';
 import Achievements from './components/achievements/Achievements';
 import Settings from './components/settings/Settings';
 import Stats from './components/stats/Stats';
+import ActivityComplete from'./components/record/ActivityComplete';
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
@@ -61,6 +62,7 @@ const RouterComponent = () => (
         <Scene key="createHighlight" component={CreateHighlight} />
         <Scene key="editHighlight" component={EditHighlight} />
         <Scene key="highlight" component={Highlight} />
+        <Scene key="activityComplete" component={ActivityComplete}/>
       </Stack>
     </Stack>
   </Router>
