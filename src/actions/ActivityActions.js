@@ -1,7 +1,8 @@
 import {
     ACTIVITY_ADD_INFO,
     ACTIVITY_FETCH,
-    ACTIVITY_COMPLETE_INFO
+    ACTIVITY_COMPLETE_INFO,
+    ACTIVITY_FETCH_STATS
   } from './types';
   import { Actions } from 'react-native-router-flux';
   import firebase from 'firebase';
@@ -63,5 +64,21 @@ import {
         dispatch({ type: ACTIVITY_COMPLETE_INFO });
           Actions.stats()
       });
+    };
+  };
+
+  export const fetchStats = () => {
+    const { currentUser } = firebase.auth();
+  
+    return dispatch => {
+      firebase
+        .database()
+        .ref(`/activity/${currentUser.uid}/activity`)
+        .on('value', snapshot => {
+          dispatch({
+            type: ACTIVITY_FETCH_STATS,
+            payload: snapshot.val()
+          });
+        });
     };
   };

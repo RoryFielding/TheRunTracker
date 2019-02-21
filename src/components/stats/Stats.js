@@ -1,13 +1,56 @@
 import React, { Component } from 'react';
-import { CheckBox } from 'react-native-elements';
 import {
     StyleSheet,
     Text,
     View,
     Image,
+    ActivityIndicator
 } from 'react-native';
+import { fetchStats } from '../../actions/ActivityActions';
+import { connect } from 'react-redux';
+import Button from '../common/Button';
 
-export default class Settings extends Component {
+class Stats extends Component {
+  state = {
+    stats: {}
+  }
+
+  componentWillMount() {
+    this.props.fetchStats();
+  }
+
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props !== nextProps) {
+      console.log(nextProps);
+      this.setState({
+        activity: nextProps.activity
+      });
+    }
+  }
+
+  renderText() {
+    if(this.state.activity){
+    return (
+      <View style={styles.container}>
+        <Text style={styles.signupText}>
+          Activity:  
+        </Text>
+      </View>
+    );
+  }
+    else {
+      return <ActivityIndicator />;
+    }
+  }
+
+renderButton1() {
+  return <Button textButton="LOG" onPress={this.onPress.bind(this)} />;
+}
+
+onPress = () => {
+  console.log(this.state.activity)
+};
 
   render() {
     return (
@@ -15,11 +58,24 @@ export default class Settings extends Component {
        <Image style={{ width: 260, height: 160 }}
           source={require('../../../assets/images/icon3.png')} />
           <Text style={styles.titleText}>Analytics</Text>
+
+          {this.renderText()}
+          {this.renderButton1()}
       </View>
 
     );
   }
 }
+
+
+const mapStateToProps = state => ({
+  activity: state.activity.activity,
+});
+
+export default connect(
+  mapStateToProps,
+  { fetchStats }
+)(Stats);
 
 const styles = StyleSheet.create({
   container: {
