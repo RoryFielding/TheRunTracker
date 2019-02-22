@@ -56,7 +56,7 @@ class Login extends Component {
         onChange={this.onChangeUser.bind(this)} 
         value={this.state.user} />
         <Input
-          placeholder="password"
+          placeholder="Password (e.g. ********)"
           secureTextEntry
           onChange={this.onChangePassword.bind(this)}
           value={this.state.password}

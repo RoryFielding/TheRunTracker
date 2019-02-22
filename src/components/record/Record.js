@@ -78,7 +78,7 @@ class Record extends Component {
       this.setState({
         errorMessage: 'Permission to access location was denied',
       });
-    }else {
+    } else {
       this.setState({ hasLocationPermissions: true });
     }
 
@@ -303,73 +303,74 @@ class Record extends Component {
     };
   }
 
+
   render() {
     return (
       <View style={styles.container}>
-{
-        this.state.location === null ?
-        <View style={styles.container}> 
-            <ActivityIndicator />
-            <Text>Finding your current location...</Text>
-        </View> :
+        {
+          this.state.location === null ?
+            <View style={styles.container}>
+              <Text>Finding your current location...</Text>
+              <ActivityIndicator />
+            </View> :
             this.state.hasLocationPermissions === false ?
-            <View style={styles.container}> 
-            <ActivityIndicator />
-              <Text>Location permissions are not granted.</Text> 
+              <View style={styles.container}>
+                <Text>Finding location access perminsions...</Text>
+                <ActivityIndicator />
               </View> :
               this.state.region === null ?
                 <Text>Map region doesn't exist.</Text> :
-                
-<View style={styles.container}>
-        <Expo.MapView
-          style={styles.mapView}
-          showsUserLocation={true}
-          region={{
-            latitude: this.state.location.coords.latitude,
-            longitude: this.state.location.coords.longitude,
-            latitudeDelta: this.state.latDelta,
-            longitudeDelta: this.state.lngDelta
-          }}
-          ref={map => { this.map = map }}
-        >
 
-          <Expo.MapView.Polyline
-            coordinates={this.state.lineCoordinates}
-            strokeColor="#000" // fallback for when `strokeColors` is not supported by the map-provider
-            strokeColors={[
-              '#7F0000',
-              '#00000000', // no color, creates a "long" gradient between the previous and next coordinate
-              '#B24112',
-              '#E5845C',
-              '#238C23',
-              '#7F0000'
-            ]}
-            strokeWidth={6}
-          />
-        </Expo.MapView>
-        <View style={styles.map}>
-          <View style={{ flex: 1 }}>
-            <View style={{ flex: 2, backgroundColor: '#1C272A' }} >
-              <Image style={{ width: 260, height: 160, marginHorizontal: 60, marginTop: -40 }}
-                source={require('../../../assets/images/icon3.png')} />
-            </View>
-            <View style={{ flex: 3 }} />
-          </View>
-        </View>
-        <View style={styles.stats}>
-          {this._renderTimers()}
-          <View style={styles.buttonContainer}>
-            {this._renderDistance()}
-            {this._renderSpeed()}
-          </View>
-          {this._renderKcal()}
-        </View>
-        <View style={styles.buttonWrapper}>
-          {this._renderStartButton()}
-          {this._renderFinishButton()}
-        </View>
-        </View>
-}
+                <View style={styles.container}>
+                  <Expo.MapView
+                    style={styles.mapView}
+                    showsUserLocation={true}
+                    region={{
+                      latitude: this.state.location.coords.latitude,
+                      longitude: this.state.location.coords.longitude,
+                      latitudeDelta: this.state.latDelta,
+                      longitudeDelta: this.state.lngDelta
+                    }}
+                    ref={map => { this.map = map }}
+                  >
+
+                    <Expo.MapView.Polyline
+                      coordinates={this.state.lineCoordinates}
+                      strokeColor="#000" // fallback for when `strokeColors` is not supported by the map-provider
+                      strokeColors={[
+                        '#7F0000',
+                        '#00000000', // no color, creates a "long" gradient between the previous and next coordinate
+                        '#B24112',
+                        '#E5845C',
+                        '#238C23',
+                        '#7F0000'
+                      ]}
+                      strokeWidth={6}
+                    />
+                  </Expo.MapView>
+                  <View style={styles.map}>
+                    <View style={{ flex: 1 }}>
+                      <View style={{ flex: 2, backgroundColor: '#1C272A' }} >
+                        <Image style={{ width: 260, height: 160, marginHorizontal: 60, marginTop: -40 }}
+                          source={require('../../../assets/images/icon3.png')} />
+                      </View>
+                      <View style={{ flex: 3 }} />
+                    </View>
+                  </View>
+                  <View style={styles.stats}>
+                    {this._renderTimers()}
+                    <View style={styles.buttonContainer}>
+                      {this._renderDistance()}
+                      {this._renderSpeed()}
+                    </View>
+                    {this._renderKcal()}
+                  </View>
+                  <View style={styles.buttonWrapper}>
+                    {this._renderStartButton()}
+                    {this._renderFinishButton()}
+                  </View>
+                </View>
+        }
       </View>
     );
   }

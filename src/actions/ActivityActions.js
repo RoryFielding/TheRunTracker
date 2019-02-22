@@ -45,7 +45,7 @@ import {
     };
   };
 
-  export const completeActivityInfo = (distanceTravelled, speed, kCal, mainTimer, notes) => {
+  export const completeActivityInfo = (distanceTravelled, speed, kCal, mainTimer, notes, date) => {
     const { currentUser } = firebase.auth();
 
     return dispatch => {
@@ -58,7 +58,8 @@ import {
         speed: speed,
         kCal: kCal,
         mainTimer: mainTimer,
-        notes: notes
+        notes: notes,
+        date: date
       })
       .then(() => {
         dispatch({ type: ACTIVITY_COMPLETE_INFO });

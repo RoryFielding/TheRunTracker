@@ -45,9 +45,11 @@ class Signup extends Component {
     return (
       <View style={styles.container}>
         <Logo />
-        <Input placeholder="email@gmail.com" onChange={this.onChangeUser.bind(this)} value={this.state.user} />
+        <Input placeholder="Email (e.g. user@gmail.com)" 
+         onChange={this.onChangeUser.bind(this)} 
+         value={this.state.user} />
         <Input
-          placeholder="password"
+          placeholder="Password (e.g. ********)"
           secureTextEntry
           onChange={this.onChangePassword.bind(this)}
           value={this.state.password}

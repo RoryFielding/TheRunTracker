@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ScrollView, View, Image, Text, StyleSheet, TextInput, ActivityIndicator } from 'react-native';
+import { ScrollView, View, Image, Text, StyleSheet, ActivityIndicator } from 'react-native';
 import TimeFormatter from 'minutes-seconds-milliseconds';
 import { fetchActivity, completeActivityInfo } from '../../actions/ActivityActions';
 import { connect } from 'react-redux';
@@ -8,15 +8,10 @@ import Input from '../common/Input';
 import { Actions } from 'react-native-router-flux';
 
 class ActivityComplete extends Component {
-
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            notes: '',
-            date: '',
-        }
-    }
+    state = {
+        notes: '',
+        date: '',
+    };
 
     componentWillMount() {
         this.props.fetchActivity();
@@ -25,12 +20,13 @@ class ActivityComplete extends Component {
     componentWillReceiveProps(nextProps) {
         if (this.props !== nextProps) {
             console.log(nextProps);
+            formatTimer = TimeFormatter(nextProps.activity.activity.mainTimer);
             this.setState({
-                distanceTravelled: nextProps.activity.distanceTravelled,
-                speed: nextProps.activity.speed,
-                kCal: nextProps.activity.kCal,
-                mainTimer: nextProps.activity.mainTimer,
-                mapSnapshot: nextProps.activity.mapSnapshot
+                distanceTravelled: nextProps.activity.activity.distanceTravelled,
+                speed: nextProps.activity.activity.speed,
+                kCal: nextProps.activity.activity.kCal,
+                mainTimer: formatTimer,
+                mapSnapshot: nextProps.activity.activity.mapSnapshot,
             });
         }
     }
@@ -39,15 +35,13 @@ class ActivityComplete extends Component {
         var date = new Date().getDate(); //Current Date
         var month = new Date().getMonth() + 1; //Current Month
         var year = new Date().getFullYear(); //Current Year
-        var hours = new Date().getHours(); //Current Hours
-        var min = new Date().getMinutes(); //Current Minutes
-        var sec = new Date().getSeconds(); //Current Seconds
         this.setState({
             //Setting the value of the date time
             date:
-                date + '/' + month + '/' + year + ' ' + hours + ':' + min + ':' + sec,
+                date + '/' + month + '/' + year,
         });
     }
+
 
     renderButton1() {
         return <Button textButton="SAVE" onPress={this.onPress.bind(this)} />;
@@ -59,10 +53,10 @@ class ActivityComplete extends Component {
 
     onGoBack = () => {
         Actions.record();
-      };
+    };
 
     onPress = () => {
-        this.props.completeActivityInfo(this.state.distanceTravelled, this.state.speed, this.state.kCal, this.state.mainTimer, this.state.notes)
+        this.props.completeActivityInfo(this.state.distanceTravelled, this.state.speed, this.state.kCal, this.state.mainTimer, this.state.notes, this.state.date)
     };
 
 
@@ -79,21 +73,21 @@ class ActivityComplete extends Component {
                     <View style={styles.rowWrap}>
                         <Text style={styles.activityText2}>
                             Distance: {parseFloat(this.state.distanceTravelled.toFixed(2))} km
-      </Text>
+                        </Text>
                         <Text style={styles.activityText2}>
                             Speed: {parseFloat(this.state.speed.toFixed(2))} kmph
-      </Text>
+                        </Text>
                     </View>
                     <View style={styles.rowWrap}>
                         <Text style={styles.activityText2}>
-                            Time: {TimeFormatter(this.state.mainTimer)}
+                            Time: {this.state.mainTimer}
                         </Text>
                         <Text style={styles.activityText2}>
                             kCal Burned: {parseFloat(this.state.kCal.toFixed(2))}
                         </Text>
                         <Text style={styles.activityText3}>
                             Route Snapsnot:
-          </Text>
+                        </Text>
                         <Image style={{ width: 260, height: 160, marginVertical: 10 }}
                             source={{ uri: this.state.mapSnapshot }} />
                     </View>
@@ -119,7 +113,7 @@ class ActivityComplete extends Component {
                     {this.renderText()}
                     <Text style={styles.activityText3}>
                         Notes:
-          </Text>
+                    </Text>
                     <Input placeholder="Notes"
                         onChange={this.onChangeNotes.bind(this)}
                         value={this.state.notes} />
@@ -133,7 +127,7 @@ class ActivityComplete extends Component {
 }
 
 const mapStateToProps = state => ({
-    activity: state.activity.activity,
+    activity: state.activity,
 });
 
 export default connect(
