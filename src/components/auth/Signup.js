@@ -54,11 +54,11 @@ class Signup extends Component {
           onChange={this.onChangePassword.bind(this)}
           value={this.state.password}
         />
-        <Text>{this.props.auth.errorCreating}</Text>
+        <Text style={styles.errorText}>{this.props.auth.errorCreating}</Text>
         {this.renderButtons()}
         <TouchableOpacity onPress={this.onGoBack.bind(this)}>
           <View>
-            <Text style={styles.text}>Already got an account? Log in!</Text>
+            <Text style={styles.logInText}>Already got an account? Log in!</Text>
           </View>
         </TouchableOpacity>
       </View>
@@ -82,8 +82,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center'
 },
-  text: {
+  logInText: {
     color: '#4CA4B0',
     fontSize: 15
+  },
+  errorText: {
+    color: '#B22222',
   }
 });

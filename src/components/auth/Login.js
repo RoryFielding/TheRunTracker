@@ -61,7 +61,7 @@ class Login extends Component {
           onChange={this.onChangePassword.bind(this)}
           value={this.state.password}
         />
-        <Text>{this.props.auth.errorLoging}</Text>
+        <Text style={styles.errorText}>{this.props.auth.errorLoging}</Text>
         {this.renderButtons()}
       </View>
     );
@@ -84,4 +84,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center'
 },
+errorText: {
+  color: '#B22222',
+}
 });
