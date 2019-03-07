@@ -9,6 +9,7 @@ import {
   AUTH_CONSENT_INFO_ADD,
   AUTH_HEIGHT_INFO_ADD,
   AUTH_WEIGHT_INFO_ADD,
+  AUTH_ACTIVITY_LEVEL_INFO,
   AUTH_GOAL_INFO_ADD
 } from './types';
 import firebase from 'firebase';
@@ -45,7 +46,7 @@ export const createUser = (email, password) => {
   };
 };
 
-export const addUserNameInfo = (firstName, lastName, age, date) => {
+export const addUserNameInfo = (firstName, lastName, age, date, mchecked) => {
   const { currentUser } = firebase.auth();
 
   return dispatch => {
@@ -56,7 +57,8 @@ export const addUserNameInfo = (firstName, lastName, age, date) => {
         firstName: firstName,
         lastName: lastName,
         age: age,
-        date: date
+        date: date,
+        mchecked: mchecked
       })
       .then(() => {
         dispatch({ type: AUTH_NAME_INFO_ADD });
@@ -133,6 +135,26 @@ export const addUserGoalInfo = (loseChecked, maintainChecked, gainChecked) => {
       .then(() => {
         dispatch({ type: AUTH_GOAL_INFO_ADD });
         Actions.signup6()
+      });
+  };
+};
+
+export const addUserActivityLevelInfo = (sedentary, lowActive, active, veryActive) => {
+  const { currentUser } = firebase.auth();
+
+  return dispatch => {
+    firebase
+      .database()
+      .ref(`/users/${currentUser.uid}/profile/activitylevel`)
+      .set({
+        sedentary: sedentary,
+        lowActive: lowActive,
+        active: active,
+        veryActive: veryActive
+      })
+      .then(() => {
+        dispatch({ type: AUTH_ACTIVITY_LEVEL_INFO });
+        Actions.signup7()
       });
   };
 };

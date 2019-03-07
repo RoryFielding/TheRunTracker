@@ -68,7 +68,7 @@ checkTcBox() {
 }
 
   onPressSignUp = () => {
-    this.props.addUserNameInfo(this.state.firstName, this.state.lastName, this.state.age, this.state.date);
+    this.props.addUserNameInfo(this.state.firstName, this.state.lastName, this.state.age, this.state.date, this.state.mchecked);
   };
 
   onGoBack = () => {
@@ -150,7 +150,8 @@ const mapStateToProps = state => ({
   firstName: state.firstName,
   lastName: state.lastName,
   age: state.age,
-  date: state.date
+  date: state.date,
+  mchecked: state.mchecked
 });
 
 export default connect(

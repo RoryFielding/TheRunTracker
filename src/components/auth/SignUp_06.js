@@ -1,206 +1,108 @@
-import React from 'react';
-import { ScrollView, View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import React, { Component } from 'react';
+import {
+    StyleSheet,
+    Text,
+    View,
+    ScrollView
+} from 'react-native';
 import { CheckBox } from 'react-native-elements';
-import { connect } from 'react-redux';
 import Button from '../common/Button';
 import { Actions } from 'react-native-router-flux';
-import { createUser } from '../../actions/AuthActions';
+import { connect } from 'react-redux';
+import { addUserActivityLevelInfo } from '../../actions/AuthActions';
 
-class SignUp_06 extends React.Component {
-    static navigationOptions = {
-        header: null,
-    };
+class SignUp_06 extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            fhbox: false,
-            onekbox: false,
-            oneptfkbox: false,
-            twokbox: false,
-            twoptfbox: false,
-            threekbox: false,
-            BMI: "",
-            TEE: ""
+            sedentary: false,
+            lowActive: false,
+            active: false,
+            veryActive: false
+        };
+    }
+
+    handleChange(e) {
+        this.setState({
+            [e.target.name]: e.target.value
+        });
+    }
+
+    checkSedentaryBox() {
+        sedentary = this.state.sedentary;
+        lowActive = this.state.lowActive;
+        active = this.state.active;
+        veryActive = this.state.veryActive;
+
+        this.setState({ sedentary: !this.state.sedentary })
+        if (lowActive === true) {
+            this.setState({ lowActive: !this.state.lowActive })
+        }
+        if (active === true) {
+            this.setState({ active: !this.state.active })
+        }
+        if (veryActive === true) {
+            this.setState({ veryActive: !this.state.veryActive })
         }
     }
 
-    checkFhBox() {
-        fhbox = this.state.fhbox
-        onekbox = this.state.onekbox;
-        oneptfkbox = this.state.oneptfkbox;
-        twokbox = this.state.twokbox;
-        twoptfbox = this.state.twoptfbox;
-        threekbox = this.state.threekbox;
-        this.setState({ fhbox: !this.state.fhbox })
-        if (onekbox === true) {
-            this.setState({ onekbox: !this.state.onekbox })
-        }
-        if (oneptfkbox === true) {
-            this.setState({ oneptfkbox: !this.state.oneptfkbox })
-        }
-        if (twokbox === true) {
-            this.setState({ twokbox: !this.state.twokbox })
-        }
-        if (twoptfbox === true) {
-            this.setState({ twoptfbox: !this.state.twoptfbox })
-        }
-        if (threekbox === true) {
-            this.setState({ threekbox: !this.state.threekbox })
-        }
-        console.log(this.state.user)
-    }
+    checklowActiveBox() {
+        sedentary = this.state.sedentary;
+        lowActive = this.state.lowActive;
+        active = this.state.active;
+        veryActive = this.state.veryActive;
 
-    checkOnekBox() {
-        fhbox = this.state.fhbox
-        onekbox = this.state.onekbox;
-        oneptfkbox = this.state.oneptfkbox;
-        twokbox = this.state.twokbox;
-        twoptfbox = this.state.twoptfbox;
-        threekbox = this.state.threekbox;
-        this.setState({ onekbox: !this.state.onekbox })
-        if (fhbox === true) {
-            this.setState({ fhbox: !this.state.fhbox })
+        this.setState({ lowActive: !this.state.lowActive })
+        if (sedentary === true) {
+            this.setState({ sedentary: !this.state.sedentary })
         }
-        if (oneptfkbox === true) {
-            this.setState({ oneptfkbox: !this.state.oneptfkbox })
+        if (active === true) {
+            this.setState({ active: !this.state.active })
         }
-        if (twokbox === true) {
-            this.setState({ twokbox: !this.state.twokbox })
-        }
-        if (twoptfbox === true) {
-            this.setState({ twoptfbox: !this.state.twoptfbox })
-        }
-        if (threekbox === true) {
-            this.setState({ threekbox: !this.state.threekbox })
+        if (veryActive === true) {
+            this.setState({ veryActive: !this.state.veryActive })
         }
     }
 
-    checkOneptfBox() {
-        fhbox = this.state.fhbox
-        onekbox = this.state.onekbox;
-        oneptfkbox = this.state.oneptfkbox;
-        twokbox = this.state.twokbox;
-        twoptfbox = this.state.twoptfbox;
-        threekbox = this.state.threekbox;
-        this.setState({ oneptfkbox: !this.state.oneptfkbox })
-        if (onekbox === true) {
-            this.setState({ onekbox: !this.state.onekbox })
+    checkActiveBox() {
+        sedentary = this.state.sedentary;
+        lowActive = this.state.lowActive;
+        active = this.state.active;
+        veryActive = this.state.veryActive;
+
+        this.setState({ active: !this.state.active })
+        if (sedentary === true) {
+            this.setState({ sedentary: !this.state.sedentary })
         }
-        if (fhbox === true) {
-            this.setState({ fhbox: !this.state.fhbox })
+        if (lowActive === true) {
+            this.setState({ lowActive: !this.state.lowActive })
         }
-        if (twokbox === true) {
-            this.setState({ twokbox: !this.state.twokbox })
-        }
-        if (twoptfbox === true) {
-            this.setState({ twoptfbox: !this.state.twoptfbox })
-        }
-        if (threekbox === true) {
-            this.setState({ threekbox: !this.state.threekbox })
+        if (veryActive === true) {
+            this.setState({ veryActive: !this.state.veryActive })
         }
     }
 
-    checkTwokBox() {
-        fhbox = this.state.fhbox
-        onekbox = this.state.onekbox;
-        oneptfkbox = this.state.oneptfkbox;
-        twokbox = this.state.twokbox;
-        twoptfbox = this.state.twoptfbox;
-        threekbox = this.state.threekbox;
-        this.setState({ twokbox: !this.state.twokbox })
-        if (onekbox === true) {
-            this.setState({ onekbox: !this.state.onekbox })
-        }
-        if (oneptfkbox === true) {
-            this.setState({ oneptfkbox: !this.state.oneptfkbox })
-        }
-        if (twokbox === true) {
-            this.setState({ fhbox: !this.state.fhbox })
-        }
-        if (twoptfbox === true) {
-            this.setState({ twoptfbox: !this.state.twoptfbox })
-        }
-        if (threekbox === true) {
-            this.setState({ threekbox: !this.state.threekbox })
-        }
-    }
+    checkveryActiveBox() {
+        sedentary = this.state.sedentary;
+        lowActive = this.state.lowActive;
+        active = this.state.active;
+        veryActive = this.state.veryActive;
 
-    checkTwoptfBox() {
-        fhbox = this.state.fhbox
-        onekbox = this.state.onekbox;
-        oneptfkbox = this.state.oneptfkbox;
-        twokbox = this.state.twokbox;
-        twoptfbox = this.state.twoptfbox;
-        threekbox = this.state.threekbox;
-        threeptfbox = this.state.threeptfbox;
-        fourkbox = this.state.fourkbox;
-        this.setState({ twoptfbox: !this.state.twoptfbox })
-        if (onekbox === true) {
-            this.setState({ onekbox: !this.state.onekbox })
+        this.setState({ veryActive: !this.state.veryActive })
+        if (sedentary === true) {
+            this.setState({ sedentary: !this.state.sedentary })
         }
-        if (oneptfkbox === true) {
-            this.setState({ oneptfkbox: !this.state.oneptfkbox })
+        if (lowActive === true) {
+            this.setState({ lowActive: !this.state.lowActive })
         }
-        if (twokbox === true) {
-            this.setState({ twokbox: !this.state.twokbox })
-        }
-        if (fhbox === true) {
-            this.setState({ fhbox: !this.state.fhbox })
-        }
-        if (threekbox === true) {
-            this.setState({ threekbox: !this.state.threekbox })
-        }
-    }
-
-    checkThreekBox() {
-        fhbox = this.state.fhbox
-        onekbox = this.state.onekbox;
-        oneptfkbox = this.state.oneptfkbox;
-        twokbox = this.state.twokbox;
-        twoptfbox = this.state.twoptfbox;
-        threekbox = this.state.threekbox;
-        this.setState({ threekbox: !this.state.threekbox })
-        if (onekbox === true) {
-            this.setState({ onekbox: !this.state.onekbox })
-        }
-        if (oneptfkbox === true) {
-            this.setState({ oneptfkbox: !this.state.oneptfkbox })
-        }
-        if (twokbox === true) {
-            this.setState({ twokbox: !this.state.twokbox })
-        }
-        if (twoptfbox === true) {
-            this.setState({ twoptfbox: !this.state.twoptfbox })
-        }
-        if (fhbox === true) {
-            this.setState({ fhbox: !this.state.fhbox })
-        }
-    }
-
-    setCheckBoxL(loseChecked) {
-        twoptfbox = this.state.twoptfbox;
-        if (loseChecked) {
-            this.setState({ twoptfbox: true });
-        }
-    }
-
-    setCheckBoxM(twokbox) {
-        twokbox = this.state.twokbox;
-        if (twokbox) {
-            this.setState({ twokbox: true });
-        }
-    }
-
-    setCheckBoxG(gainChecked) {
-        onekbox = this.state.onekbox;
-        if (gainChecked) {
-            this.setState({ onekbox: true });
+        if (active === true) {
+            this.setState({ active: !this.state.active })
         }
     }
 
     onPressSignUp = () => {
-        Actions.app();
+        this.props.addUserActivityLevelInfo(this.state.sedentary, this.state.lowActive, this.state.active, this.state.veryActive);
     };
 
     onGoBack = () => {
@@ -208,7 +110,7 @@ class SignUp_06 extends React.Component {
     };
 
     renderButton1() {
-        return <Button textButton="COMPLETE SIGN UP" onPress={this.onPressSignUp.bind(this)} />;
+        return <Button textButton="NEXT" onPress={this.onPressSignUp.bind(this)} />;
     }
 
     renderButton2() {
@@ -217,84 +119,61 @@ class SignUp_06 extends React.Component {
 
     render() {
 
-
         return (
             <ScrollView style={styles.container}>
-                <View style={styles.container2}>
-
-                    <Text style={styles.signupText3}>Your Goals</Text>
-                    <View style={styles.textBox2}>
-                        <Text style={styles.signupText}>BMI: </Text>
-                        <Text style={styles.signupText}>You are in the BMI range: </Text>
-                        <Text style={styles.signupText}>Based on your current weight, height, age and lifestyle, Runtracker
-            has calculated your daily calorie needs to be  kCal. </Text>
-                        <Text style={styles.signupText}>If you have any underlying
-                        health problems, please first consult with your doctor before beginning any
-            period of exercise.</Text>
-                    </View>
-                    <Text style={styles.signupText3}>Calories to burn weekly</Text>
-
-                    <CheckBox
-                        title='300'
+            <View style={styles.container2}>
+                <Text style={styles.signupText3}>Your Lifestyle</Text>
+                <Text style={styles.signupText2}>Please select the description that matches your current lifestyle</Text>
+                <CheckBox
+                        title='Sedentary'
                         containerStyle={styles.checkBox}
-                        checked={this.state.fhbox}
+                        checked={this.state.sedentary}
                         textStyle={styles.signupText}
-                        onPress={() => this.checkFhBox()}
+                        onPress={this.checkSedentaryBox.bind(this)}
                     />
-                    <CheckBox
-                        title='600'
+                     <Text style={styles.signupText2}>Includes only the light physical activity associated with typical day-to-day life</Text>
+                <CheckBox
+                        title='Low Active'
                         containerStyle={styles.checkBox}
-                        checked={this.state.onekbox}
+                        checked={this.state.lowActive}
                         textStyle={styles.signupText}
-                        onPress={() => this.checkOnekBox()}
+                        onPress={this.checklowActiveBox.bind(this)}
                     />
-                    <CheckBox
-                        title='900'
+                    <Text style={styles.signupText2}>Adds 30 minutes per day walking at a speed of 4 miles per hour (mph)</Text>
+                <CheckBox
+                        title='Active'
                         containerStyle={styles.checkBox}
-                        checked={this.state.oneptfkbox}
+                        checked={this.state.active}
                         textStyle={styles.signupText}
-                        onPress={() => this.checkOneptfBox()}
+                        onPress={this.checkActiveBox.bind(this)}
                     />
+                    <Text style={styles.signupText2}>Adds an hourly moderate daily exercise</Text>
                     <CheckBox
-                        title='1200'
+                        title='Very Active'
                         containerStyle={styles.checkBox}
-                        checked={this.state.twokbox}
+                        checked={this.state.veryActive}
                         textStyle={styles.signupText}
-                        onPress={() => this.checkTwokBox()}
+                        onPress={this.checkveryActiveBox.bind(this)}
                     />
-                    <CheckBox
-                        title='1500'
-                        containerStyle={styles.checkBox}
-                        checked={this.state.twoptfbox}
-                        textStyle={styles.signupText}
-                        onPress={() => this.checkTwoptfBox()}
-                    />
-                    <CheckBox
-                        title='2000'
-                        containerStyle={styles.checkBox}
-                        checked={this.state.threekbox}
-                        textStyle={styles.signupText}
-                        onPress={() => this.checkThreekBox()}
-                    />
-                    {this.renderButton1()}
-                    {this.renderButton2()}
-
-
-                </View>
-            </ScrollView >
-
-        );
+                     <Text style={styles.signupText2}>Includes vigorous daily exercise</Text>
+                {this.renderButton1()}
+                {this.renderButton2()}
+            </View>
+            </ScrollView>
+        )
     }
-
 }
 
 const mapStateToProps = state => ({
-    auth: state.auth
+    sedentary: state.sedentary,
+    lowActive: state.lowActive,
+    active: state.active,
+    veryActive: state.veryActive
   });
   
   export default connect(
     mapStateToProps,
-    { createUser }
+    { addUserActivityLevelInfo }
   )(SignUp_06);
 
 const styles = StyleSheet.create({
@@ -308,17 +187,33 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center'
     },
-    signupButton: {
-        color: '#4CA4B0',
-        fontSize: 16,
-        fontWeight: '500'
+    checkBox: {
+        backgroundColor: '#1C272A',
+        width: 125,
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        borderColor: '#1C272A',
+    },
+    tccheckBox: {
+        backgroundColor: '#1C272A',
+        width: 45,
+        height: 45,
+        borderColor: '#1C272A',
+        flexDirection: 'row',
     },
     signupTextCont: {
         flexGrow: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
         paddingVertical: 16,
         flexDirection: 'row'
+    },
+    TcText: {
+        flexWrap: 'wrap',
+        flexDirection: 'row'
+    },
+    TcTextCont: {
+        color: 'rgba(255,255,255,0.6)',
+        fontSize: 16,
+        paddingVertical: 16
     },
     signupText: {
         color: 'rgba(255,255,255,0.6)',
@@ -327,9 +222,10 @@ const styles = StyleSheet.create({
     signupText2: {
         color: 'rgba(255,255,255,0.6)',
         fontSize: 16,
-        paddingVertical: 32,
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        textAlign: 'center',
+        width: 250
     },
     signupText3: {
         color: 'rgba(255,255,255,0.6)',
@@ -338,28 +234,14 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center'
     },
-    button: {
-        width: 300,
-        backgroundColor: '#4CA4B0',
-        borderRadius: 25,
-        marginVertical: 10,
-        paddingHorizontal: 30,
-        paddingVertical: 16
-    },
-    buttonText: {
+    signupButton: {
+        color: '#4CA4B0',
         fontSize: 16,
-        fontWeight: '500',
-        color: '#ffffff',
-        textAlign: 'center'
+        fontWeight: '500'
     },
-    backButton: {
-        backgroundColor: '#4CA4B0',
-        width: 30,
-        height: 25,
-        borderRadius: 25,
-        marginVertical: 25,
-        paddingVertical: 16,
-        flexDirection: 'row'
+    tcButton: {
+        color: '#4CA4B0',
+        fontSize: 16,
     },
     inputBox: {
         width: 300,
@@ -371,14 +253,27 @@ const styles = StyleSheet.create({
         marginVertical: 10,
         paddingVertical: 16
     },
-    checkBox: {
-        backgroundColor: '#1C272A',
-        width: 140,
-        flexDirection: 'row',
-        flexWrap: 'wrap',
-        borderColor: '#1C272A',
+    datePicker: {
+        width: 200,
+        paddingVertical: 16
     },
-    textBox2: {
-        width: 320,
+    button: {
+        width: 300,
+        backgroundColor: '#4CA4B0',
+        borderRadius: 25,
+        marginVertical: 10,
+        paddingVertical: 16
+    },
+    buttonText: {
+        fontSize: 16,
+        fontWeight: '500',
+        color: '#ffffff',
+        textAlign: 'center'
+    },
+    tcView: {
+        backgroundColor: '#1C272A',
+        flexGrow: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
     }
 });
