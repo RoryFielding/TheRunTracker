@@ -4,7 +4,7 @@ import { CheckBox } from 'react-native-elements';
 import { connect } from 'react-redux';
 import Button from '../common/Button';
 import { Actions } from 'react-native-router-flux';
-import { createUser } from '../../actions/AuthActions';
+import { addUserBMIInfo } from '../../actions/AuthActions';
 import { fetchProfile } from '../../actions/ProfileActions';
 
 class SignUp_07 extends React.Component {
@@ -15,192 +15,194 @@ class SignUp_07 extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            fhbox: false,
-            onekbox: false,
-            oneptfkbox: false,
+            threehundredbox: false,
+            sixhundredbox: false,
+            ninehundredbox: false,
+            onepttwokbox: false,
+            oneptfivekbox: false,
             twokbox: false,
-            twoptfbox: false,
-            threekbox: false,
             BMI: "",
             TEE: ""
         }
     }
 
     checkFhBox() {
-        fhbox = this.state.fhbox
-        onekbox = this.state.onekbox;
-        oneptfkbox = this.state.oneptfkbox;
-        twokbox = this.state.twokbox;
-        twoptfbox = this.state.twoptfbox;
-        threekbox = this.state.threekbox;
-        this.setState({ fhbox: !this.state.fhbox })
+        fhbox = this.state.threehundredbox
+        onekbox = this.state.sixhundredbox;
+        oneptfkbox = this.state.ninehundredbox;
+        twokbox = this.state.onepttwokbox;
+        twoptfbox = this.state.oneptfivekbox;
+        threekbox = this.state.twokbox;
+        this.setState({ fhbox: !this.state.threehundredbox })
         if (onekbox === true) {
-            this.setState({ onekbox: !this.state.onekbox })
+            this.setState({ onekbox: !this.state.sixhundredbox })
         }
         if (oneptfkbox === true) {
-            this.setState({ oneptfkbox: !this.state.oneptfkbox })
+            this.setState({ oneptfkbox: !this.state.ninehundredbox })
         }
         if (twokbox === true) {
-            this.setState({ twokbox: !this.state.twokbox })
+            this.setState({ twokbox: !this.state.onepttwokbox })
         }
         if (twoptfbox === true) {
-            this.setState({ twoptfbox: !this.state.twoptfbox })
+            this.setState({ twoptfbox: !this.state.oneptfivekbox })
         }
         if (threekbox === true) {
-            this.setState({ threekbox: !this.state.threekbox })
+            this.setState({ threekbox: !this.state.twokbox })
         }
         console.log(this.state.user)
     }
 
     checkOnekBox() {
-        fhbox = this.state.fhbox
-        onekbox = this.state.onekbox;
-        oneptfkbox = this.state.oneptfkbox;
-        twokbox = this.state.twokbox;
-        twoptfbox = this.state.twoptfbox;
-        threekbox = this.state.threekbox;
-        this.setState({ onekbox: !this.state.onekbox })
+        fhbox = this.state.threehundredbox
+        onekbox = this.state.sixhundredbox;
+        oneptfkbox = this.state.ninehundredbox;
+        twokbox = this.state.onepttwokbox;
+        twoptfbox = this.state.oneptfivekbox;
+        threekbox = this.state.twokbox;
+        this.setState({ onekbox: !this.state.sixhundredbox })
         if (fhbox === true) {
-            this.setState({ fhbox: !this.state.fhbox })
+            this.setState({ fhbox: !this.state.threehundredbox })
         }
         if (oneptfkbox === true) {
-            this.setState({ oneptfkbox: !this.state.oneptfkbox })
+            this.setState({ oneptfkbox: !this.state.ninehundredbox })
         }
         if (twokbox === true) {
-            this.setState({ twokbox: !this.state.twokbox })
+            this.setState({ twokbox: !this.state.onepttwokbox })
         }
         if (twoptfbox === true) {
-            this.setState({ twoptfbox: !this.state.twoptfbox })
+            this.setState({ twoptfbox: !this.state.oneptfivekbox })
         }
         if (threekbox === true) {
-            this.setState({ threekbox: !this.state.threekbox })
+            this.setState({ threekbox: !this.state.twokbox })
         }
     }
 
     checkOneptfBox() {
-        fhbox = this.state.fhbox
-        onekbox = this.state.onekbox;
-        oneptfkbox = this.state.oneptfkbox;
-        twokbox = this.state.twokbox;
-        twoptfbox = this.state.twoptfbox;
-        threekbox = this.state.threekbox;
-        this.setState({ oneptfkbox: !this.state.oneptfkbox })
+        fhbox = this.state.threehundredbox
+        onekbox = this.state.sixhundredbox;
+        oneptfkbox = this.state.ninehundredbox;
+        twokbox = this.state.onepttwokbox;
+        twoptfbox = this.state.oneptfivekbox;
+        threekbox = this.state.twokbox;
+        this.setState({ oneptfkbox: !this.state.ninehundredbox })
         if (onekbox === true) {
-            this.setState({ onekbox: !this.state.onekbox })
+            this.setState({ onekbox: !this.state.sixhundredbox })
         }
         if (fhbox === true) {
-            this.setState({ fhbox: !this.state.fhbox })
+            this.setState({ fhbox: !this.state.threehundredbox })
         }
         if (twokbox === true) {
-            this.setState({ twokbox: !this.state.twokbox })
+            this.setState({ twokbox: !this.state.onepttwokbox })
         }
         if (twoptfbox === true) {
-            this.setState({ twoptfbox: !this.state.twoptfbox })
+            this.setState({ twoptfbox: !this.state.oneptfivekbox })
         }
         if (threekbox === true) {
-            this.setState({ threekbox: !this.state.threekbox })
+            this.setState({ threekbox: !this.state.twokbox })
         }
     }
 
     checkTwokBox() {
-        fhbox = this.state.fhbox
-        onekbox = this.state.onekbox;
-        oneptfkbox = this.state.oneptfkbox;
-        twokbox = this.state.twokbox;
-        twoptfbox = this.state.twoptfbox;
-        threekbox = this.state.threekbox;
-        this.setState({ twokbox: !this.state.twokbox })
+        fhbox = this.state.threehundredbox
+        onekbox = this.state.sixhundredbox;
+        oneptfkbox = this.state.ninehundredbox;
+        twokbox = this.state.onepttwokbox;
+        twoptfbox = this.state.oneptfivekbox;
+        threekbox = this.state.twokbox;
+        this.setState({ twokbox: !this.state.onepttwokbox })
         if (onekbox === true) {
-            this.setState({ onekbox: !this.state.onekbox })
+            this.setState({ onekbox: !this.state.sixhundredbox })
         }
         if (oneptfkbox === true) {
-            this.setState({ oneptfkbox: !this.state.oneptfkbox })
+            this.setState({ oneptfkbox: !this.state.ninehundredbox })
         }
         if (twokbox === true) {
-            this.setState({ fhbox: !this.state.fhbox })
+            this.setState({ fhbox: !this.state.threehundredbox })
         }
         if (twoptfbox === true) {
-            this.setState({ twoptfbox: !this.state.twoptfbox })
+            this.setState({ twoptfbox: !this.state.oneptfivekbox })
         }
         if (threekbox === true) {
-            this.setState({ threekbox: !this.state.threekbox })
+            this.setState({ threekbox: !this.state.twokbox })
         }
     }
 
     checkTwoptfBox() {
-        fhbox = this.state.fhbox
-        onekbox = this.state.onekbox;
-        oneptfkbox = this.state.oneptfkbox;
-        twokbox = this.state.twokbox;
-        twoptfbox = this.state.twoptfbox;
-        threekbox = this.state.threekbox;
+        fhbox = this.state.threehundredbox
+        onekbox = this.state.sixhundredbox;
+        oneptfkbox = this.state.ninehundredbox;
+        twokbox = this.state.onepttwokbox;
+        twoptfbox = this.state.oneptfivekbox;
+        threekbox = this.state.twokbox;
         threeptfbox = this.state.threeptfbox;
         fourkbox = this.state.fourkbox;
-        this.setState({ twoptfbox: !this.state.twoptfbox })
+        this.setState({ twoptfbox: !this.state.oneptfivekbox })
         if (onekbox === true) {
-            this.setState({ onekbox: !this.state.onekbox })
+            this.setState({ onekbox: !this.state.sixhundredbox })
         }
         if (oneptfkbox === true) {
-            this.setState({ oneptfkbox: !this.state.oneptfkbox })
+            this.setState({ oneptfkbox: !this.state.ninehundredbox })
         }
         if (twokbox === true) {
-            this.setState({ twokbox: !this.state.twokbox })
+            this.setState({ twokbox: !this.state.onepttwokbox })
         }
         if (fhbox === true) {
-            this.setState({ fhbox: !this.state.fhbox })
+            this.setState({ fhbox: !this.state.threehundredbox })
         }
         if (threekbox === true) {
-            this.setState({ threekbox: !this.state.threekbox })
+            this.setState({ threekbox: !this.state.twokbox })
         }
     }
 
     checkThreekBox() {
-        fhbox = this.state.fhbox
-        onekbox = this.state.onekbox;
-        oneptfkbox = this.state.oneptfkbox;
-        twokbox = this.state.twokbox;
-        twoptfbox = this.state.twoptfbox;
-        threekbox = this.state.threekbox;
-        this.setState({ threekbox: !this.state.threekbox })
+        fhbox = this.state.threehundredbox
+        onekbox = this.state.sixhundredbox;
+        oneptfkbox = this.state.ninehundredbox;
+        twokbox = this.state.onepttwokbox;
+        twoptfbox = this.state.oneptfivekbox;
+        threekbox = this.state.twokbox;
+        this.setState({ threekbox: !this.state.twokbox })
         if (onekbox === true) {
-            this.setState({ onekbox: !this.state.onekbox })
+            this.setState({ onekbox: !this.state.sixhundredbox })
         }
         if (oneptfkbox === true) {
-            this.setState({ oneptfkbox: !this.state.oneptfkbox })
+            this.setState({ oneptfkbox: !this.state.ninehundredbox })
         }
         if (twokbox === true) {
-            this.setState({ twokbox: !this.state.twokbox })
+            this.setState({ twokbox: !this.state.onepttwokbox })
         }
         if (twoptfbox === true) {
-            this.setState({ twoptfbox: !this.state.twoptfbox })
+            this.setState({ twoptfbox: !this.state.oneptfivekbox })
         }
         if (fhbox === true) {
-            this.setState({ fhbox: !this.state.fhbox })
+            this.setState({ fhbox: !this.state.threehundredbox })
         }
     }
 
     setCheckBoxL(loseChecked) {
-        twoptfbox = this.state.twoptfbox;
+        oneptfivekbox = this.state.oneptfivekbox;
         if (loseChecked) {
-            this.setState({ twoptfbox: true });
+            this.setState({ oneptfivekbox: true });
         }
     }
 
-    setCheckBoxM(twokbox) {
-        twokbox = this.state.twokbox;
-        if (twokbox) {
-            this.setState({ twokbox: true });
+    setCheckBoxM(maintainChecked) {
+        onepttwokbox = this.state.onepttwokbox;
+        if (maintainChecked) {
+            this.setState({ onepttwokbox: true });
         }
     }
 
     setCheckBoxG(gainChecked) {
-        onekbox = this.state.onekbox;
+        sixhundredbox = this.state.sixhundredbox;
         if (gainChecked) {
-            this.setState({ onekbox: true });
+            this.setState({ sixhundredbox: true });
         }
     }
 
     onPressSignUp = () => {
+        this.props.addUserBMIInfo(this.state.BMI, this.state.TEE, this.state.threehundredbox, this.state.sixhundredbox,
+            this.state.ninehundredbox, this.state.onepttwokbox, this.state.oneptfivekbox, this.state.twokbox);
         Actions.app();
     };
 
@@ -231,7 +233,9 @@ class SignUp_07 extends React.Component {
             this.setCheckBoxL(nextProps.profile.goal.loseChecked)
             this.setCheckBoxM(nextProps.profile.goal.maintainChecked)
             this.setCheckBoxG(nextProps.profile.goal.gainChecked)
-
+            this.setTEE(nextProps.profile.name.age, nextProps.profile.weight.weight, nextProps.profile.height.height,
+                nextProps.profile.name.mchecked, nextProps.profile.activitylevel.sedentary, nextProps.profile.activitylevel.lowActive, 
+                nextProps.profile.activitylevel.active, nextProps.profile.activitylevel.veryActive)
             this.setState({
                 firstName: nextProps.profile.name.firstName,
                 lastName: nextProps.profile.name.lastName,
@@ -266,52 +270,44 @@ class SignUp_07 extends React.Component {
           You are currently obese. </Text>;
         }
     }    
-    displayTEEMessage(age, weight, height) {
+    setTEE(age, weight, height, mchecked, sedentary, lowActive, active, veryActive) {
         meterHeight = height/100;
         let TEE = 0;
         //If user is male
-        if (this.state.mchecked) {
-          if (this.state.sedentary) {
+        if (mchecked) {
+          if (sedentary) {
             //1.0
             TEE = 864 - 9.72 * age + 1.0 * (14.2 * weight + 503 * meterHeight);
-            return <Text style={styles.signupText}>{parseFloat(TEE).toFixed(2)}</Text>;
           }
-          if (this.state.lowActive) {
+          if (lowActive) {
             //1.12
             TEE = 864 - 9.72 * age + 1.12 * (14.2 * weight + 503 * meterHeight);
-            return <Text style={styles.signupText}>{parseFloat(TEE).toFixed(2)}</Text>;
           }
-          if (this.state.active) {
+          if (active) {
             //1.27
             TEE = 864 - 9.72 * age + 1.27 * (14.2 * weight + 503 * meterHeight);
-            return <Text style={styles.signupText}>{parseFloat(TEE).toFixed(2)}</Text>;
           }
-          if (this.state.veryActive) {
+          if (veryActive) {
             //1.54
             TEE = 864 - 9.72 * age + 1.54 * (14.2 * weight + 503 * meterHeight);
-            return <Text style={styles.signupText}>{parseFloat(TEE).toFixed(2)}</Text>;
           }
           //If user is female
           else
-            if (this.state.sedentary) {
+            if (sedentary) {
               //1.0
               TEE = 387 - 7.31 * age + 1.0 * (14.2 * weight + 503 * meterHeight)
-              return <Text style={styles.signupText}>{parseFloat(TEE).toFixed(2)}</Text>;
             }
-          if (this.state.lowActive) {
+          if (lowActive) {
             //1.12
             TEE = 387 - 7.31 * age + 1.12 * (14.2 * weight + 503 * meterHeight)
-            return <Text style={styles.signupText}>{parseFloat(TEE).toFixed(2)}</Text>;
           }
-          if (this.state.active) {
+          if (active) {
             //1.27
             TEE = 387 - 7.31 * age + 1.27 * (14.2 * weight + 503 * meterHeight)
-            return <Text style={styles.signupText}>{parseFloat(TEE).toFixed(2)}</Text>;
           }
-          if (this.state.veryActive) {
+          if (veryActive) {
             //1.54
             TEE = 387 - 7.31 * age + 1.54 * (14.2 * weight + 503 * meterHeight)
-            return <Text style={styles.signupText}>{parseFloat(TEE).toFixed(2)}</Text>;
           }
           this.setState({ TEE: TEE });
         }
@@ -338,23 +334,23 @@ class SignUp_07 extends React.Component {
       }
     
       setCheckBoxL(loseChecked){
-        twoptfbox = this.state.twoptfbox;
+        oneptfivekbox = this.state.oneptfivekbox;
         if(loseChecked){
-          this.setState({twoptfbox: true});
+          this.setState({oneptfivekbox: true});
         }
       }
     
       setCheckBoxM(maintainChecked){
-        twokbox = this.state.twokbox;
+        onepttwokbox = this.state.onepttwokbox;
         if(maintainChecked){
-          this.setState({twokbox: true});
+          this.setState({onepttwokbox: true});
         }
       }
     
       setCheckBoxG(gainChecked){
-        onekbox = this.state.onekbox;
+        sixhundredbox = this.state.sixhundredbox;
         if(gainChecked){
-          this.setState({onekbox: true});
+          this.setState({sixhundredbox: true});
         }
       }
 
@@ -376,7 +372,7 @@ class SignUp_07 extends React.Component {
                         <Text style={styles.signupText}>BMI: {parseFloat(this.state.BMI).toFixed(2)} </Text>
                         <Text style={styles.signupText}>You are in the BMI range: {this.displayBMIMessage(this.state.BMI)}</Text>
                         <Text style={styles.signupText}>Based on your current weight, height, age and lifestyle, Runtracker
-            has calculated your daily calorie needs to be {this.displayTEEMessage(this.state.age, this.state.weight, this.state.height)} kCal. </Text>
+            has calculated your daily calorie needs to be {parseFloat(this.state.TEE).toFixed(2)} kCal. </Text>
             <Text style={styles.signupText}>{this.displayBurnMessage(this.state.loseChecked, this.state.maintainChecked, this.state.gainChecked)}</Text>
                         <Text style={styles.signupText}>If you have any underlying
                         health problems, please first consult with your doctor before beginning any
@@ -387,49 +383,47 @@ class SignUp_07 extends React.Component {
                     <CheckBox
                         title='300'
                         containerStyle={styles.checkBox}
-                        checked={this.state.fhbox}
+                        checked={this.state.threehundredbox}
                         textStyle={styles.signupText}
                         onPress={() => this.checkFhBox()}
                     />
                     <CheckBox
                         title='600'
                         containerStyle={styles.checkBox}
-                        checked={this.state.onekbox}
+                        checked={this.state.sixhundredbox}
                         textStyle={styles.signupText}
                         onPress={() => this.checkOnekBox()}
                     />
                     <CheckBox
                         title='900'
                         containerStyle={styles.checkBox}
-                        checked={this.state.oneptfkbox}
+                        checked={this.state.ninehundredbox}
                         textStyle={styles.signupText}
                         onPress={() => this.checkOneptfBox()}
                     />
                     <CheckBox
                         title='1200'
                         containerStyle={styles.checkBox}
-                        checked={this.state.twokbox}
+                        checked={this.state.onepttwokbox}
                         textStyle={styles.signupText}
                         onPress={() => this.checkTwokBox()}
                     />
                     <CheckBox
                         title='1500'
                         containerStyle={styles.checkBox}
-                        checked={this.state.twoptfbox}
+                        checked={this.state.oneptfivekbox}
                         textStyle={styles.signupText}
                         onPress={() => this.checkTwoptfBox()}
                     />
                     <CheckBox
                         title='2000'
                         containerStyle={styles.checkBox}
-                        checked={this.state.threekbox}
+                        checked={this.state.twokbox}
                         textStyle={styles.signupText}
                         onPress={() => this.checkThreekBox()}
                     />
                     {this.renderButton1()}
                     {this.renderButton2()}
-
-
                 </View>
             }
             </ScrollView >
@@ -446,7 +440,7 @@ const mapStateToProps = state => ({
 
 export default connect(
     mapStateToProps,
-    { createUser, fetchProfile }
+    { addUserBMIInfo, fetchProfile }
 )(SignUp_07);
 
 const styles = StyleSheet.create({

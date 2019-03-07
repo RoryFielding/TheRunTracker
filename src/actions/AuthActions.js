@@ -10,7 +10,8 @@ import {
   AUTH_HEIGHT_INFO_ADD,
   AUTH_WEIGHT_INFO_ADD,
   AUTH_ACTIVITY_LEVEL_INFO,
-  AUTH_GOAL_INFO_ADD
+  AUTH_GOAL_INFO_ADD,
+  AUTH_BMI_INFO
 } from './types';
 import firebase from 'firebase';
 import { Actions } from 'react-native-router-flux';
@@ -158,6 +159,31 @@ export const addUserActivityLevelInfo = (sedentary, lowActive, active, veryActiv
       });
   };
 };
+
+export const addUserBMIInfo = (BMI, TEE, threehundredbox, sixhundredbox, ninehundredbox, onepttwokbox, oneptfivekbox, twokbox) => {
+  const { currentUser } = firebase.auth();
+
+  return dispatch => {
+    firebase
+      .database()
+      .ref(`/users/${currentUser.uid}/profile/BMI`)
+      .set({
+        BMI: BMI,
+        TEE: TEE,
+        threehundredbox: threehundredbox,
+        sixhundredbox: sixhundredbox,
+        ninehundredbox: ninehundredbox,
+        onepttwokbox: onepttwokbox,
+        oneptfivekbox: oneptfivekbox,
+        twokbox: twokbox
+      })
+      .then(() => {
+        dispatch({ type: AUTH_BMI_INFO });
+        Actions.app();
+      });
+  };
+};
+
 
 const createUserFail = dispatch => {
   dispatch({ type: AUTH_CREATE_USER_FAIL });
