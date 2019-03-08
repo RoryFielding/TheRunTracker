@@ -153,9 +153,7 @@ class Stats extends Component {
           <Picker.Item label="Speed" value="speed" />
         </Picker>
         </View>
-          <Text style={styles.signupText}>
-            Activity:
-        </Text>
+          {this.renderText()}
           <LineChart
             data={data}
             width={screenWidth}
@@ -175,12 +173,30 @@ class Stats extends Component {
     console.log(this.state.y)
   };
 
+  renderText() {
+    if(this.state.y == 'dist'){
+      return <Text style={styles.signupText2}> Distance Data: </Text>
+    }
+    if(this.state.y == 'kcal'){
+      return <Text style={styles.signupText2}> kCal Data: </Text>
+    }
+    if(this.state.y == 'speed'){
+      return <Text style={styles.signupText2}> Speed Data: </Text>
+    }
+  }
+
   render() {
     return (
       <View style={styles.container}>
         <Image style={{ width: 260, height: 160 }}
           source={require('../../../assets/images/icon3.png')} />
         <Text style={styles.titleText}>Analytics</Text>
+        <Text style={styles.signupText}>
+        View your activity data over the last week.
+        </Text>
+        <Text style={styles.signupText}>
+            Select a value to plot data below.
+        </Text>
         {this.renderChart(this.state.y)}
       </View>
 
@@ -218,7 +234,12 @@ const styles = StyleSheet.create({
   },
   signupText: {
     color: 'rgba(255,255,255,0.6)',
-    fontSize: 16
+    fontSize: 16,
+    top: -35
+  },
+  signupText2: {
+    color: 'rgba(255,255,255,0.6)',
+    fontSize: 16,
   },
   titleText: {
     color: 'rgba(255,255,255,0.6)',

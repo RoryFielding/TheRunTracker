@@ -5,13 +5,17 @@ import {
   AUTH_LOGIN_USER,
   AUTH_LOGIN_USER_FAIL,
   AUTH_LOGIN_USER_SUCCESS,
+  AUTH_LOGOUT_USER,
+  AUTH_LOGOUT_USER_FAIL,
+  AUTH_LOGOUT_USER_SUCCESS,
   AUTH_NAME_INFO_ADD,
   AUTH_CONSENT_INFO_ADD,
   AUTH_HEIGHT_INFO_ADD,
   AUTH_WEIGHT_INFO_ADD,
   AUTH_ACTIVITY_LEVEL_INFO,
   AUTH_GOAL_INFO_ADD,
-  AUTH_BMI_INFO
+  AUTH_BMI_INFO,
+  AUTH_IMAGE_INFO,
 } from './types';
 import firebase from 'firebase';
 import { Actions } from 'react-native-router-flux';
@@ -184,6 +188,23 @@ export const addUserBMIInfo = (BMI, TEE, threehundredbox, sixhundredbox, ninehun
   };
 };
 
+export const addUserProfilePic = (image) => {
+  const { currentUser } = firebase.auth();
+
+  return dispatch => {
+    firebase
+      .database()
+      .ref(`/users/${currentUser.uid}/profile/image`)
+      .set({
+        image: image
+      })
+      .then(() => {
+        dispatch({ type: AUTH_IMAGE_INFO });
+        Actions.signup8();
+      });
+  };
+};
+
 
 const createUserFail = dispatch => {
   dispatch({ type: AUTH_CREATE_USER_FAIL });
@@ -209,6 +230,32 @@ export const loginUser = (email, password) => {
       .catch(() => loginUserFail(dispatch));
   };
 };
+
+export const logOutUser = dispatch => {
+  return dispatch => {
+    dispatch({ type: AUTH_LOGOUT_USER });
+    firebase
+    .auth()
+    .signOut()
+    .then(function() {
+      Actions.auth();
+    })
+    .catch(function(error) {
+      logOutUserFail(dispatch)
+    });
+}
+}
+
+const logOutUserFail = dispatch => {
+  dispatch({ type: AUTH_LOGOUT_USER_FAIL });
+}
+
+const logOutUserSuccess = (dispatch, user) => {
+  dispatch({
+    type: AUTH_LOGOUT_USER_SUCCESS,
+    payload: user
+  });
+}
 
 const loginUserFail = dispatch => {
   dispatch({ type: AUTH_LOGIN_USER_FAIL });

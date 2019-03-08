@@ -11,6 +11,7 @@ import Signup4 from './components/auth/SignUp_04';
 import Signup5 from './components/auth/SignUp_05';
 import Signup6 from './components/auth/SignUp_06';
 import Signup7 from './components/auth/SignUp_07';
+import Signup8 from './components/auth/SignUp_08';
 
 //Tab Stack
 import Profile from './components/profile/Profile';
@@ -47,11 +48,12 @@ const RouterComponent = () => (
         <Scene key="signup5" component={Signup5} />
         <Scene key="signup6" component={Signup6} />
         <Scene key="signup7" component={Signup7} />
+        <Scene key="signup8" component={Signup8} />
       </Stack>
       <Stack key="app" hideNavBar panHandlers={null}>
         <Tabs showLabel={false}>
+        <Scene key="profile" component={Profile} icon={ProfileIcon} hideNavBar />
           <Scene key="achievements" component={Achievements} icon={AchieveIcon} hideNavBar />
-          <Scene key="profile" component={Profile} icon={ProfileIcon} hideNavBar />
           <Scene key="record" component={Record} icon={AddPostIcon} hideNavBar />
           <Scene key="stats" component={Stats} icon={StatsIcon} hideNavBar />
           <Scene key="settings" component={Settings} icon={SettingsIcon} hideNavBar/>

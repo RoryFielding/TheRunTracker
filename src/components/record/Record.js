@@ -34,7 +34,8 @@ class Record extends Component {
     longitude: '',
     latDelta: latDelta,
     lngDelta: lngDelta,
-    mapSnapshot: ''
+    mapSnapshot: '',
+    transitionToComplete: false
   };
 
   _handleMapRegionChange = mapRegion => {
@@ -250,7 +251,7 @@ class Record extends Component {
   }
 
   async handleLapReset() {
-    let { isRunning, mainTimerStart } = this.state;
+    let { isRunning, mainTimerStart, transitionToComplete } = this.state;
     //Reset button clicked
     if (mainTimerStart && !isRunning) {
       this.setState({
@@ -269,23 +270,32 @@ class Record extends Component {
 
     //Finish button clicked
     if (isRunning) {
-      // 'takeSnapshot' takes a config object with the
-      // following options
-      const snapshot = this.map.takeSnapshot({
-        width: 300,      // optional, when omitted the view-width is used
-        height: 300,     // optional, when omitted the view-height is used
-        format: 'png',   // image formats: 'png', 'jpg' (default: 'png')
-        quality: 0.8,    // image quality: 0..1 (only relevant for jpg, default: 1)
-        result: 'file'   // result types: 'file', 'base64' (default: 'file')
-      });
-      snapshot.then((uri) => {
-        this.setState({ mapSnapshot: uri });
-      });
-      snapshot.then((uri => {
-        this.props.addActivityInfo(this.state.distanceTravelled, this.state.speed, this.state.kCal, this.state.mainTimer, this.state.mapSnapshot)
-      }))
-      snapshot.then((uri => {
-        clearInterval(this.interval);
+      this.takeSnapshot();
+      if(transitionToComplete){
+      this.transitionScreen()
+      }
+    };
+  }
+
+  async takeSnapshot() {
+    const snapshot = this.map.takeSnapshot({
+      width: 300,      // optional, when omitted the view-width is used
+      height: 300,     // optional, when omitted the view-height is used
+      format: 'png',   // image formats: 'png', 'jpg' (default: 'png')
+      quality: 0.8,    // image quality: 0..1 (only relevant for jpg, default: 1)
+      result: 'file'   // result types: 'file', 'base64' (default: 'file')
+    });
+    snapshot.then((uri) => {
+      this.setState({ 
+        mapSnapshot: uri,
+        transitionToComplete: true });
+    });
+
+  }
+
+  transitionScreen() {
+    this.props.addActivityInfo(this.state.distanceTravelled, this.state.speed, this.state.kCal, this.state.mainTimer, this.state.mapSnapshot);
+    clearInterval(this.interval);
         this.setState({
           isRunning: false,
           mainTimerStart: null,
@@ -298,9 +308,9 @@ class Record extends Component {
           routeCoordinates: [],
           lineCoordinates: [],
           prevLatLng: {},
+          transitionToComplete: false,
+          mapSnapshot: ''
         });
-      }))
-    };
   }
 
 

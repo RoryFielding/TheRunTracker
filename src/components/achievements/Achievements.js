@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { View, Image, Text, StyleSheet } from 'react-native';
+import { fetchStats } from '../../actions/ActivityActions';
+import { connect } from 'react-redux';
 
-export default class Achievements extends Component {
+class Achievements extends Component {
 
   constructor(props) {
     super(props);
@@ -16,7 +18,18 @@ export default class Achievements extends Component {
       overCal: 1432
     }
   }
+  componentWillMount() {
+    this.props.fetchStats();
+  }
 
+  componentWillReceiveProps(nextProps) {
+    if (this.props !== nextProps) {
+      console.log(nextProps);
+      this.setState({
+        activity: nextProps.activity
+      });
+    }
+  }
 
   render() {
     return (
@@ -58,6 +71,17 @@ export default class Achievements extends Component {
     );
   }
 }
+
+
+const mapStateToProps = state => ({
+  activity: state.activity.activity,
+});
+
+export default connect(
+  mapStateToProps,
+  { fetchStats }
+)(Achievements);
+
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#1C272A',
