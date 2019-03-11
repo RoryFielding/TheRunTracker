@@ -68,7 +68,11 @@ checkTcBox() {
 }
 
   onPressSignUp = () => {
-    this.props.addUserNameInfo(this.state.firstName, this.state.lastName, this.state.age, this.state.date, this.state.mchecked);
+    if(!this.state.firstName || !this.state.lastName || !this.state.age || !this.state.date || !this.state.tcchecked || (!this.state.mchecked && !this.state.fchecked)){
+        this.setState({fieldsNotChecked: true})
+    }else {
+        this.props.addUserNameInfo(this.state.firstName, this.state.lastName, this.state.age, this.state.date, this.state.mchecked);
+    }
   };
 
   onGoBack = () => {
@@ -77,6 +81,12 @@ checkTcBox() {
 
   renderButtons() {
       return <Button textButton="NEXT" onPress={this.onPressSignUp.bind(this)} />;
+  }
+
+  renderError(){
+      if(this.state.fieldsNotChecked){
+          return <Text style={styles.errorText}>Please ensure all fields are complete</Text>
+      }
   }
 
   render() {
@@ -140,6 +150,7 @@ checkTcBox() {
                     />
                 </View>
         {this.renderButtons()}
+        {this.renderError()}
         </View>
       </ScrollView>
     );
@@ -245,5 +256,8 @@ const styles = StyleSheet.create({
         flexGrow: 1,
         alignItems: 'center',
         justifyContent: 'center',
-    }
+    },
+    errorText: {
+        color: '#B22222',
+      }
 });
