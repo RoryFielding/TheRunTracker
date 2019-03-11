@@ -19,7 +19,13 @@ class SignUp_07 extends React.Component {
     }
 
     onPressSignUp = () => {
-        this.props.addUserProfilePic(this.state.image)
+
+        if(!this.state.image){
+            this.setState({fieldsNotChecked: true})
+        }
+        else {
+            this.props.addUserProfilePic(this.state.image)
+        }
     };
 
     onGoBack = () => {
@@ -52,6 +58,12 @@ class SignUp_07 extends React.Component {
     }
     };
 
+    renderError() {
+        if (this.state.fieldsNotChecked) {
+            return <Text style={styles.errorText}>Please upload a profile picture.</Text>
+        }
+    }
+
     render() {
 
         return (
@@ -68,6 +80,7 @@ class SignUp_07 extends React.Component {
                 :
                 <Image source={{ uri: this.state.image }} style={{ width: 200, height: 200 }} />
                 }
+                {this.renderError()}
                 {this.renderButton1()}
                 {this.renderButton2()}
             </View>
@@ -169,5 +182,8 @@ const styles = StyleSheet.create({
     },
     textBox2: {
         width: 320,
+    },
+    errorText: {
+        color: '#B22222',
     }
 });

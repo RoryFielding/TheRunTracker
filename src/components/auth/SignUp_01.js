@@ -10,8 +10,8 @@ import { CheckBox } from 'react-native-elements';
 import DatePicker from 'react-native-datepicker';
 
 class SignUp_01 extends Component {
- 
-  state = {
+
+    state = {
         firstName: '',
         lastName: '',
         mchecked: false,
@@ -23,151 +23,151 @@ class SignUp_01 extends Component {
         age: null
     };
 
-  onChangefirstName = text => {
-      this.setState({
-          firstName: text
-      })
-  }
-
-  onChangelastName = text => {
-    this.setState({
-        lastName: text
-    })
-}
-
-checkMaleBox () {
-    fchecked = this.state.fchecked;
-    this.setState({ mchecked: !this.state.mchecked })
-    if (fchecked === true) {
-        this.setState({ fchecked: !this.state.fchecked })
+    onChangefirstName = text => {
+        this.setState({
+            firstName: text
+        })
     }
-}
 
-checkFemaleBox() {
-    mchecked = this.state.mchecked;
-    this.setState({ fchecked: !this.state.fchecked })
-    if (mchecked === true) {
+    onChangelastName = text => {
+        this.setState({
+            lastName: text
+        })
+    }
+
+    checkMaleBox() {
+        fchecked = this.state.fchecked;
         this.setState({ mchecked: !this.state.mchecked })
+        if (fchecked === true) {
+            this.setState({ fchecked: !this.state.fchecked })
+        }
     }
-}
 
-setAgeDate(date) {
-    this.setState({ date: date })
-    var today = new Date();
-    var birthDate = new Date(date);
-    var age = today.getFullYear() - birthDate.getFullYear();
-    var m = today.getMonth() - birthDate.getMonth();
-    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
-        age--;
+    checkFemaleBox() {
+        mchecked = this.state.mchecked;
+        this.setState({ fchecked: !this.state.fchecked })
+        if (mchecked === true) {
+            this.setState({ mchecked: !this.state.mchecked })
+        }
     }
-    this.setState({age: age})
-}
 
-checkTcBox() {
-    this.setState({ tcchecked: !this.state.tcchecked })
-}
-
-  onPressSignUp = () => {
-    if(!this.state.firstName || !this.state.lastName || !this.state.age || !this.state.date || !this.state.tcchecked || (!this.state.mchecked && !this.state.fchecked)){
-        this.setState({fieldsNotChecked: true})
-    }else {
-        this.props.addUserNameInfo(this.state.firstName, this.state.lastName, this.state.age, this.state.date, this.state.mchecked);
+    setAgeDate(date) {
+        this.setState({ date: date })
+        var today = new Date();
+        var birthDate = new Date(date);
+        var age = today.getFullYear() - birthDate.getFullYear();
+        var m = today.getMonth() - birthDate.getMonth();
+        if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+            age--;
+        }
+        this.setState({ age: age })
     }
-  };
 
-  onGoBack = () => {
-    Actions.pop();
-  };
+    checkTcBox() {
+        this.setState({ tcchecked: !this.state.tcchecked })
+    }
 
-  renderButtons() {
-      return <Button textButton="NEXT" onPress={this.onPressSignUp.bind(this)} />;
-  }
+    onPressSignUp = () => {
+        if (!this.state.firstName || !this.state.lastName || !this.state.age || !this.state.date || !this.state.tcchecked || (!this.state.mchecked && !this.state.fchecked)) {
+            this.setState({ fieldsNotChecked: true })
+        } else {
+            this.props.addUserNameInfo(this.state.firstName, this.state.lastName, this.state.age, this.state.date, this.state.mchecked);
+        }
+    };
 
-  renderError(){
-      if(this.state.fieldsNotChecked){
-          return <Text style={styles.errorText}>Please ensure all fields are complete</Text>
-      }
-  }
+    onGoBack = () => {
+        Actions.pop();
+    };
 
-  render() {
-    return (
-      <ScrollView style={styles.container}>
-      <View style={styles.container2}>
-        <Logo />
-        <Input placeholder="First Name" 
-        onChange={this.onChangefirstName.bind(this)} 
-        value={this.state.firstName} />
-        <Input placeholder="Last Name" 
-        onChange={this.onChangelastName.bind(this)} 
-        value={this.state.lastName} />
-        <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
-                    <CheckBox
-                        title='Male'
-                        containerStyle={styles.checkBox}
-                        checked={this.state.mchecked}
-                        textStyle={styles.signupText}
-                        onPress={this.checkMaleBox.bind(this)}
+    renderButtons() {
+        return <Button textButton="NEXT" onPress={this.onPressSignUp.bind(this)} />;
+    }
+
+    renderError() {
+        if (this.state.fieldsNotChecked) {
+            return <Text style={styles.errorText}>Please ensure all fields are complete.</Text>
+        }
+    }
+
+    render() {
+        return (
+            <ScrollView style={styles.container}>
+                <View style={styles.container2}>
+                    <Logo />
+                    <Input placeholder="First Name"
+                        onChange={this.onChangefirstName.bind(this)}
+                        value={this.state.firstName} />
+                    <Input placeholder="Last Name"
+                        onChange={this.onChangelastName.bind(this)}
+                        value={this.state.lastName} />
+                    <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
+                        <CheckBox
+                            title='Male'
+                            containerStyle={styles.checkBox}
+                            checked={this.state.mchecked}
+                            textStyle={styles.signupText}
+                            onPress={this.checkMaleBox.bind(this)}
+                        />
+                        <CheckBox
+                            title='Female'
+                            containerStyle={styles.checkBox}
+                            checked={this.state.fchecked}
+                            textStyle={styles.signupText}
+                            onPress={this.checkFemaleBox.bind(this)}
+                        />
+                    </View>
+                    <DatePicker
+                        style={styles.datePicker}
+                        date={this.state.date}
+                        mode="date"
+                        placeholder="Date Of Birth"
+                        format="YYYY-MM-DD"
+                        minDate="1900-01-01"
+                        maxDate="2018-01-01"
+                        confirmBtnText="Confirm"
+                        cancelBtnText="Cancel"
+                        customStyles={{
+                            dateIcon: {
+                                position: 'absolute',
+                                left: 0,
+                                top: 4,
+                                marginLeft: 0
+                            },
+                            dateInput: {
+                                marginLeft: 36,
+                            },
+                        }}
+                        onDateChange={(date) => { this.setAgeDate(date) }}
                     />
-                    <CheckBox
-                        title='Female'
-                        containerStyle={styles.checkBox}
-                        checked={this.state.fchecked}
-                        textStyle={styles.signupText}
-                        onPress={this.checkFemaleBox.bind(this)}
-                    />
+                    <View style={styles.tcView}>
+                        <Text style={styles.TcTextCont}>I have read and accept the</Text>
+                        <TouchableOpacity onPress={() => this.props.navigation.navigate('AuthLoading')}>
+                            <Text style={styles.tcButton}> terms and conditions</Text></TouchableOpacity>
+                        <CheckBox
+                            checked={this.state.tcchecked}
+                            containerStyle={styles.tccheckBox}
+                            onPress={() => this.checkTcBox()}
+                        />
+                    </View>
+                    {this.renderError()}
+                    {this.renderButtons()}
                 </View>
-                <DatePicker
-                    style={styles.datePicker}
-                    date={this.state.date}
-                    mode="date"
-                    placeholder="Date Of Birth"
-                    format="YYYY-MM-DD"
-                    minDate="1900-01-01"
-                    maxDate="2018-01-01"
-                    confirmBtnText="Confirm"
-                    cancelBtnText="Cancel"
-                    customStyles={{
-                        dateIcon: {
-                            position: 'absolute',
-                            left: 0,
-                            top: 4,
-                            marginLeft: 0
-                        },
-                        dateInput: {
-                            marginLeft: 36,
-                        },
-                    }}
-                    onDateChange={(date) => { this.setAgeDate(date) }}
-                />
-                <View style={styles.tcView}>
-                    <Text style={styles.TcTextCont}>I have read and accept the</Text>
-                    <TouchableOpacity onPress={() => this.props.navigation.navigate('AuthLoading')}>
-                        <Text style={styles.tcButton}> terms and conditions</Text></TouchableOpacity>
-                    <CheckBox
-                        checked={this.state.tcchecked}
-                        containerStyle={styles.tccheckBox}
-                        onPress={() => this.checkTcBox()}
-                    />
-                </View>
-        {this.renderButtons()}
-        {this.renderError()}
-        </View>
-      </ScrollView>
-    );
-  }
+            </ScrollView>
+        );
+    }
 }
 
 const mapStateToProps = state => ({
-  firstName: state.firstName,
-  lastName: state.lastName,
-  age: state.age,
-  date: state.date,
-  mchecked: state.mchecked
+    firstName: state.firstName,
+    lastName: state.lastName,
+    age: state.age,
+    date: state.date,
+    mchecked: state.mchecked
 });
 
 export default connect(
-  mapStateToProps,
-  { addUserNameInfo }
+    mapStateToProps,
+    { addUserNameInfo }
 )(SignUp_01);
 
 
@@ -182,7 +182,7 @@ const styles = StyleSheet.create({
         flexGrow: 1,
         justifyContent: 'center',
         alignItems: 'center'
-      },
+    },
     checkBox: {
         backgroundColor: '#1C272A',
         width: 125,
@@ -259,5 +259,5 @@ const styles = StyleSheet.create({
     },
     errorText: {
         color: '#B22222',
-      }
+    }
 });

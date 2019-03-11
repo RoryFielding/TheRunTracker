@@ -71,7 +71,13 @@ class SignUp_05 extends Component {
     }
 
     onPressSignUp = () => {
-        this.props.addUserGoalInfo(this.state.loseChecked, this.state.maintainChecked, this.state.gainChecked);
+
+        if(!this.state.loseChecked && !this.state.maintainChecked && !this.state.gainChecked){
+            this.setState({fieldsNotChecked: true})
+        } 
+        else {
+            this.props.addUserGoalInfo(this.state.loseChecked, this.state.maintainChecked, this.state.gainChecked);
+        }
     };
 
     onGoBack = () => {
@@ -84,6 +90,12 @@ class SignUp_05 extends Component {
 
     renderButton2() {
         return <Button textButton="BACK" onPress={this.onGoBack.bind(this)} />;
+    }
+
+    renderError() {
+        if (this.state.fieldsNotChecked) {
+            return <Text style={styles.errorText}>Please select a fitness goal.</Text>
+        }
     }
 
     render() {
@@ -113,6 +125,7 @@ class SignUp_05 extends Component {
                         textStyle={styles.signupText}
                         onPress={this.checkGainBox.bind(this)}
                     />
+                {this.renderError()}
                 {this.renderButton1()}
                 {this.renderButton2()}
             </View>
@@ -231,5 +244,8 @@ const styles = StyleSheet.create({
         flexGrow: 1,
         alignItems: 'center',
         justifyContent: 'center',
+    },
+    errorText: {
+        color: '#B22222',
     }
 });

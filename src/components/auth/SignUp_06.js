@@ -102,7 +102,12 @@ class SignUp_06 extends Component {
     }
 
     onPressSignUp = () => {
-        this.props.addUserActivityLevelInfo(this.state.sedentary, this.state.lowActive, this.state.active, this.state.veryActive);
+        if (!this.state.sedentary && !this.state.lowActive && !this.state.active && !this.state.veryActive) {
+            this.setState({ fieldsNotChecked: true })
+        }
+        else {
+            this.props.addUserActivityLevelInfo(this.state.sedentary, this.state.lowActive, this.state.active, this.state.veryActive);
+        }
     };
 
     onGoBack = () => {
@@ -117,22 +122,28 @@ class SignUp_06 extends Component {
         return <Button textButton="BACK" onPress={this.onGoBack.bind(this)} />;
     }
 
+    renderError() {
+        if (this.state.fieldsNotChecked) {
+            return <Text style={styles.errorText}>Please select an activity level.</Text>
+        }
+    }
+
     render() {
 
         return (
             <ScrollView style={styles.container}>
-            <View style={styles.container2}>
-                <Text style={styles.signupText3}>Your Lifestyle</Text>
-                <Text style={styles.signupText2}>Please select the description that matches your current lifestyle</Text>
-                <CheckBox
+                <View style={styles.container2}>
+                    <Text style={styles.signupText3}>Your Lifestyle</Text>
+                    <Text style={styles.signupText2}>Please select the description that matches your current lifestyle</Text>
+                    <CheckBox
                         title='Sedentary'
                         containerStyle={styles.checkBox}
                         checked={this.state.sedentary}
                         textStyle={styles.signupText}
                         onPress={this.checkSedentaryBox.bind(this)}
                     />
-                     <Text style={styles.signupText2}>Includes only the light physical activity associated with typical day-to-day life</Text>
-                <CheckBox
+                    <Text style={styles.signupText2}>Includes only the light physical activity associated with typical day-to-day life</Text>
+                    <CheckBox
                         title='Low Active'
                         containerStyle={styles.checkBox}
                         checked={this.state.lowActive}
@@ -140,7 +151,7 @@ class SignUp_06 extends Component {
                         onPress={this.checklowActiveBox.bind(this)}
                     />
                     <Text style={styles.signupText2}>Adds 30 minutes per day walking at a speed of 4 miles per hour (mph)</Text>
-                <CheckBox
+                    <CheckBox
                         title='Active'
                         containerStyle={styles.checkBox}
                         checked={this.state.active}
@@ -155,10 +166,11 @@ class SignUp_06 extends Component {
                         textStyle={styles.signupText}
                         onPress={this.checkveryActiveBox.bind(this)}
                     />
-                     <Text style={styles.signupText2}>Includes vigorous daily exercise</Text>
-                {this.renderButton1()}
-                {this.renderButton2()}
-            </View>
+                    <Text style={styles.signupText2}>Includes vigorous daily exercise</Text>
+                    {this.renderError()}
+                    {this.renderButton1()}
+                    {this.renderButton2()}
+                </View>
             </ScrollView>
         )
     }
@@ -169,12 +181,12 @@ const mapStateToProps = state => ({
     lowActive: state.lowActive,
     active: state.active,
     veryActive: state.veryActive
-  });
-  
-  export default connect(
+});
+
+export default connect(
     mapStateToProps,
     { addUserActivityLevelInfo }
-  )(SignUp_06);
+)(SignUp_06);
 
 const styles = StyleSheet.create({
     container: {
@@ -275,5 +287,8 @@ const styles = StyleSheet.create({
         flexGrow: 1,
         alignItems: 'center',
         justifyContent: 'center',
+    },
+    errorText: {
+        color: '#B22222',
     }
 });

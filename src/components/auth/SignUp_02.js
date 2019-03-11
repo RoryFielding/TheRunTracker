@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ScrollView, View, Text, StyleSheet} from 'react-native';
+import { ScrollView, View, Text, StyleSheet } from 'react-native';
 import { CheckBox } from 'react-native-elements';
 import Button from '../common/Button';
 import { Actions } from 'react-native-router-flux';
@@ -8,12 +8,12 @@ import { addUserConsentInfo } from '../../actions/AuthActions';
 
 class SignUp_02 extends Component {
 
-     state = {
-      dpConsent: false,
-      dtocConsent: false,
-      locAccess: false,
-    }
-  
+  state = {
+    dpConsent: false,
+    dtocConsent: false,
+    locAccess: false,
+  }
+
 
   checkDpBox() {
     dpConsent = this.state.dpConsent;
@@ -21,86 +21,99 @@ class SignUp_02 extends Component {
   }
 
 
-checkDtocBox() {
-  dtocConsent = this.state.dtocConsent;
-  this.setState({ dtocConsent: !this.state.dtocConsent })
-}
+  checkDtocBox() {
+    dtocConsent = this.state.dtocConsent;
+    this.setState({ dtocConsent: !this.state.dtocConsent })
+  }
 
-checkLocBox() {
-  locAccess = this.state.locAccess
-  this.setState({ locAccess: !this.state.locAccess })
-}
+  checkLocBox() {
+    locAccess = this.state.locAccess
+    this.setState({ locAccess: !this.state.locAccess })
+  }
 
 
-onPressSignUp = () => {
-  this.props.addUserConsentInfo(this.state.dpConsent, this.state.dtocConsent, this.state.locAccess);
-};
+  onPressSignUp = () => {
 
-onGoBack = () => {
-  Actions.pop();
-};
+    if (!this.state.dpConsent || !this.state.dtocConsent || !this.state.locAccess) {
+      this.setState({ fieldsNotChecked: true })
+    }
+    else {
+      this.props.addUserConsentInfo(this.state.dpConsent, this.state.dtocConsent, this.state.locAccess);
+    }
+  };
 
-renderButton1() {
+  onGoBack = () => {
+    Actions.pop();
+  };
+
+  renderButton1() {
     return <Button textButton="NEXT" onPress={this.onPressSignUp.bind(this)} />;
-}
+  }
 
-renderButton2() {
+  renderButton2() {
     return <Button textButton="BACK" onPress={this.onGoBack.bind(this)} />;
-}
+  }
+
+  renderError() {
+    if (this.state.fieldsNotChecked) {
+      return <Text style={styles.errorText}>Please ensure all fields are complete.</Text>
+    }
+  }
 
   render() {
 
     return (
       <ScrollView style={styles.container}>
-        <View  style={styles.container2}>
+        <View style={styles.container2}>
           <Text style={styles.signupText3}>
-          Your Consents
+            Your Consents
           </Text>
-          
+
           <View style={styles.textBox2}>
-          <Text style={styles.signupText2}>We want you to understand how we collect and use your data. Please accept all of the following data consents to be able to use your account. </Text>
-         </View>
-         </View>
-          <View style={styles.container}>
+            <Text style={styles.signupText2}>We want you to understand how we collect and use your data. Please accept all of the following data consents to be able to use your account. </Text>
+          </View>
+        </View>
+        <View style={styles.container}>
           <CheckBox
-                        title='Sensitive Data Processing'
-                        containerStyle={styles.checkBox}
-                        checked={this.state.dpConsent}
-                        textStyle={styles.signupText}
-                        onPress={this.checkDpBox.bind(this)}
-                    />
-            <View style={styles.textBox}>
+            title='Sensitive Data Processing'
+            containerStyle={styles.checkBox}
+            checked={this.state.dpConsent}
+            textStyle={styles.signupText}
+            onPress={this.checkDpBox.bind(this)}
+          />
+          <View style={styles.textBox}>
             <Text style={styles.signupText2}>RunTracker and its affiliates are allowed to process my sensitive personal data to provide wellness and fitness services.</Text>
           </View>
 
           <View style={styles.container}>
-          <CheckBox
-                        title='Data Transfer Outside Country'
-                        containerStyle={styles.checkBox}
-                        checked={this.state.dtocConsent}
-                        textStyle={styles.signupText}
-                        onPress={this.checkDtocBox.bind(this)}
-                    />
+            <CheckBox
+              title='Data Transfer Outside Country'
+              containerStyle={styles.checkBox}
+              checked={this.state.dtocConsent}
+              textStyle={styles.signupText}
+              onPress={this.checkDtocBox.bind(this)}
+            />
             <View style={styles.textBox}>
-            <Text style={styles.signupText2}>RunTracker is allowed to transfer my personal data across the globe, including Europe and the United States of America. I'm aware that laws in different countries may be less protective than those of my country/region. </Text>
-          </View>
+              <Text style={styles.signupText2}>RunTracker is allowed to transfer my personal data across the globe, including Europe and the United States of America. I'm aware that laws in different countries may be less protective than those of my country/region. </Text>
+            </View>
           </View>
 
           <View style={styles.container}>
-          <CheckBox
-                        title='Location Data Access'
-                        containerStyle={styles.checkBox}
-                        checked={this.state.locAccess}
-                        textStyle={styles.signupText}
-                        onPress={this.checkLocBox.bind(this)}
-                    />
+            <CheckBox
+              title='Location Data Access'
+              containerStyle={styles.checkBox}
+              checked={this.state.locAccess}
+              textStyle={styles.signupText}
+              onPress={this.checkLocBox.bind(this)}
+            />
             <View style={styles.textBox}>
-            <Text style={styles.signupText2}>Before we start we will need to access your location so we can track your activies while you're using the application.</Text>
-            {this.renderButton1()}
-            {this.renderButton2()}
+              <Text style={styles.signupText2}>Before we start we will need to access your location so we can track your activies while you're using the application.</Text>
+              {this.renderError()}
+              {this.renderButton1()}
+              {this.renderButton2()}
+            </View>
           </View>
-          </View>
-          </View>
+        </View>
       </ScrollView>
     );
   }
@@ -192,5 +205,8 @@ const styles = StyleSheet.create({
   },
   textBox2: {
     width: 320,
+  },
+  errorText: {
+    color: '#B22222',
   }
 });

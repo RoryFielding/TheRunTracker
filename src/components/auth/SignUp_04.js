@@ -19,7 +19,13 @@ class SignUp_04 extends Component {
     };
 
     onPressSignUp = () => {
-        this.props.addUserWeightInfo(this.state.weight);
+
+        if (!this.state.weight) {
+            this.setState({ fieldsNotChecked: true })
+        }
+        else {
+            this.props.addUserWeightInfo(this.state.weight);
+        }
     };
 
     onGoBack = () => {
@@ -34,30 +40,37 @@ class SignUp_04 extends Component {
         return <Button textButton="BACK" onPress={this.onGoBack.bind(this)} />;
     }
 
+    renderError() {
+        if (this.state.fieldsNotChecked) {
+            return <Text style={styles.errorText}>Please enter your weight.</Text>
+        }
+    }
+
     render() {
         return (
             <View style={styles.container}>
                 <Text style={styles.signupText3}>Your Weight</Text>
                 <Text style={styles.signupText2}>Please enter your weight in KG</Text>
-                
+
                 <Input placeholder="Weight (KG)"
                     onChange={this.onChangeWeight.bind(this)}
                     value={this.state.weight} />
+                {this.renderError()}
                 {this.renderButton1()}
                 {this.renderButton2()}
             </View>
         );
     }
 }
-  
+
 const mapStateToProps = state => ({
     weight: state.weight,
-  });
-  
-  export default connect(
+});
+
+export default connect(
     mapStateToProps,
     { addUserWeightInfo }
-  )(SignUp_04);
+)(SignUp_04);
 
 const styles = StyleSheet.create({
     container: {
@@ -65,20 +78,22 @@ const styles = StyleSheet.create({
         flexGrow: 1,
         alignItems: 'center',
         justifyContent: 'center',
-      },
-      signupText2: {
+    },
+    signupText2: {
         color: 'rgba(255,255,255,0.6)',
         fontSize: 16,
         paddingVertical: 32,
         justifyContent: 'center',
         alignItems: 'center'
-      },
-      signupText3: {
+    },
+    signupText3: {
         color: 'rgba(255,255,255,0.6)',
         fontSize: 24,
         paddingVertical: 32,
         justifyContent: 'center',
         alignItems: 'center'
-      },
-
+    },
+    errorText: {
+        color: '#B22222',
+    }
 });

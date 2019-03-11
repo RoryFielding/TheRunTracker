@@ -19,7 +19,12 @@ class SignUp_03 extends Component {
     };
 
     onPressSignUp = () => {
-        this.props.addUserHeightInfo(this.state.height);
+
+        if(!this.state.height){
+            this.setState({fieldsNotChecked: true})
+        }else {
+            this.props.addUserHeightInfo(this.state.height);
+        }
     };
 
     onGoBack = () => {
@@ -34,6 +39,12 @@ class SignUp_03 extends Component {
         return <Button textButton="BACK" onPress={this.onGoBack.bind(this)} />;
     }
 
+    renderError() {
+        if (this.state.fieldsNotChecked) {
+          return <Text style={styles.errorText}>Please enter your height.</Text>
+        }
+      }
+
     render() {
         return (
             <View style={styles.container}>
@@ -43,6 +54,7 @@ class SignUp_03 extends Component {
                 <Input placeholder="Height (CM)"
                     onChange={this.onChangeHeight.bind(this)}
                     value={this.state.height} />
+                {this.renderError()}
                 {this.renderButton1()}
                 {this.renderButton2()}
             </View>
@@ -81,5 +93,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center'
       },
-
+      errorText: {
+        color: '#B22222',
+      }
 });
