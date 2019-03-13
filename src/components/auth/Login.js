@@ -40,8 +40,8 @@ class Login extends Component {
     } else {
       return (
         <View>
-          <Button textButton="Login" onPress={this.onPressLogin.bind(this)} />
-          <Button textButton="Signup" onPress={this.onPressSignUp.bind(this)} />
+          <Button textButton="Log in" onPress={this.onPressLogin.bind(this)} />
+          <Button textButton="Sign up" onPress={this.onPressSignUp.bind(this)} />
         </View>
       );
     }

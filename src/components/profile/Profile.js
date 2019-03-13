@@ -5,6 +5,7 @@ import { fetchProfile } from '../../actions/ProfileActions';
 import { logOutUser } from '../../actions/AuthActions';
 import { ImagePicker } from 'expo';
 import { Actions } from 'react-native-router-flux';
+import Button from '../common/Button';
 
 class Profile extends Component {
   state = {
@@ -140,9 +141,9 @@ class Profile extends Component {
         {this.renderGoalAmount()}
         <View style={styles.container}>
           <Text style={styles.signupText}>Had enough fun?</Text>
-          <TouchableOpacity onPress={() => this.logOut()}>
+          <Button textButton="Log out" onPress={() => this.logOut()}>
             <Text style={styles.signupButton}> Log Out</Text>
-          </TouchableOpacity>
+          </Button>
         </View>
       </View>
 

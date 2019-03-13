@@ -37,7 +37,7 @@ class Signup extends Component {
     if (this.props.auth.loading) {
       return <ActivityIndicator />;
     } else {
-      return <Button textButton="Signup" onPress={this.onPressSignUp.bind(this)} />;
+      return <Button textButton="Sign up" onPress={this.onPressSignUp.bind(this)} />;
     }
   }
 
