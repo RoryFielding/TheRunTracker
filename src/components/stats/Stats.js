@@ -9,12 +9,12 @@ import {
 } from 'react-native';
 import { fetchStats } from '../../actions/ActivityActions';
 import { connect } from 'react-redux';
-import Button from '../common/Button';
 import {
   LineChart
 } from 'react-native-chart-kit'
-import TimeFormatter from 'minutes-seconds-milliseconds';
 import { Dimensions } from 'react-native'
+import moment from 'moment';
+import Button from '../common/Button';
 
 const screenWidth = Dimensions.get('window').width
 
@@ -57,12 +57,13 @@ class Stats extends Component {
           var obj = this.state.activity[key];
           for (var prop in obj) {
             if (obj.hasOwnProperty(prop)) {
-              console.log(prop + " = " + obj[prop]);
               dataArray.push(obj[prop]);
             }
           }
         }
       }
+
+      var startOfWeek = moment().startOf('week').toDate(); 
 
       var activityNumber = dataArray.length;
       var dateData = [];
@@ -128,15 +129,6 @@ class Stats extends Component {
           }]
         }
       }
-      // if(y == 'time'){
-      //   data = {
-      //     labels: dateData,
-      //     datasets: [{
-      //       data: timeData,
-      //     }]
-      //   }
-    
-      // }
 
       return (
 

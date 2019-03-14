@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Text, View, Image, TouchableOpacity, StyleSheet, ActivityIndicator } from 'react-native';
 import { connect } from 'react-redux';
 import { fetchProfile } from '../../actions/ProfileActions';
+import { fetchStats } from '../../actions/ActivityActions';
 import { logOutUser } from '../../actions/AuthActions';
 import { ImagePicker } from 'expo';
 import { Actions } from 'react-native-router-flux';
@@ -18,7 +19,6 @@ class Profile extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (this.props !== nextProps) {
-      console.log(nextProps);
       this.setState({
         firstName: nextProps.profile.name.firstName,
         lastName: nextProps.profile.name.lastName,
@@ -36,7 +36,8 @@ class Profile extends Component {
         gainChecked: nextProps.profile.goal.gainChecked,
         maintainChecked: nextProps.profile.goal.maintainChecked,
         loseChecked: nextProps.profile.goal.loseChecked,
-        image: nextProps.profile.image.image
+        image: nextProps.profile.image.image,
+        goalProgress: nextProps.profile.goal
       });
     }
   }
@@ -74,25 +75,49 @@ class Profile extends Component {
       </Text>
     }
   }
-
+  
   renderGoalAmount() {
+
+    var dataArray = [0];
+
+    if(this.state.goalProgress) {
+    for (var key in this.state.goalProgress) {
+      if (this.state.goalProgress.hasOwnProperty(key)) {
+        var obj = this.state.goalProgress[key];
+        for (var prop in obj) {
+          if (obj.hasOwnProperty(prop)) {
+            if(obj[prop] >= 0){
+            dataArray.push(obj[prop]);
+            }
+          }
+        }
+      }
+    }
+  }
+  function getSum(total, num) {
+    return total + num;
+  }  
+
+  let goalVal = dataArray.reduce(getSum);
+
+
     if (this.state.threehundredbox) {
-      return <Text style={styles.signupText}> Goal: x/300 kCal per week </Text>
+      return <Text style={styles.signupText}> Goal: {goalVal}/300 kCal per week </Text>
     }
     if (this.state.sixhundredbox) {
-      return <Text style={styles.signupText}> Goal: x/600 kCal per week </Text>
+      return <Text style={styles.signupText}> Goal: {goalVal}/600 kCal per week </Text>
     }
     if (this.state.ninehundredbox) {
-      return <Text style={styles.signupText}> Goal: x/900 kcal per week </Text>
+      return <Text style={styles.signupText}> Goal: {goalVal}/900 kcal per week </Text>
     }
     if (this.state.onepttwokbox) {
-      return <Text style={styles.signupText}> Goal: x/1200 kcal per week </Text>
+      return <Text style={styles.signupText}> Goal: {goalVal}/1200 kcal per week </Text>
     }
     if (this.state.oneptfivekbox) {
-      return <Text style={styles.signupText}> Goal: x/1500 kcal per week </Text>
+      return <Text style={styles.signupText}> Goal: {goalVal}/1500 kcal per week </Text>
     }
     if (this.state.twokbox) {
-      return <Text style={styles.signupText}> Goal: x/2000 kcal per week </Text>
+      return <Text style={styles.signupText}> Goal: {goalVal}/2000 kcal per week </Text>
     }
 
   }
@@ -158,7 +183,7 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { fetchProfile, logOutUser }
+  { fetchProfile, fetchStats, logOutUser }
 )(Profile);
 
 const styles = StyleSheet.create({

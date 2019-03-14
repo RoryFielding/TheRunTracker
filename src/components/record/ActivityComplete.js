@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { ScrollView, View, Image, Text, StyleSheet, ActivityIndicator } from 'react-native';
 import TimeFormatter from 'minutes-seconds-milliseconds';
-import { fetchActivity, completeActivityInfo } from '../../actions/ActivityActions';
+import { fetchActivity, completeActivityInfo, setGoalInfo } from '../../actions/ActivityActions';
 import { connect } from 'react-redux';
 import Button from '../common/Button';
 import Input from '../common/Input';
 import { Actions } from 'react-native-router-flux';
+import moment from 'moment';
 
 class ActivityComplete extends Component {
     state = {
@@ -35,10 +36,10 @@ class ActivityComplete extends Component {
         var date = new Date().getDate(); //Current Date
         var month = new Date().getMonth() + 1; //Current Month
         var year = new Date().getFullYear(); //Current Year
+        
         this.setState({
             //Setting the value of the date time
-            date:
-                date + '/' + month + '/' + year,
+            date: date + '/' + month + '/' + year,
         });
     }
 
@@ -56,7 +57,8 @@ class ActivityComplete extends Component {
     };
 
     onPress = () => {
-        this.props.completeActivityInfo(this.state.distanceTravelled, this.state.speed, this.state.kCal, this.state.mainTimer, this.state.notes, this.state.date)
+        this.props.completeActivityInfo(this.state.distanceTravelled, this.state.speed, this.state.kCal, this.state.mainTimer, this.state.notes, this.state.date);
+        this.props.setGoalInfo(this.state.date, this.state.kCal)
     };
 
 
@@ -132,7 +134,7 @@ const mapStateToProps = state => ({
 
 export default connect(
     mapStateToProps,
-    { fetchActivity, completeActivityInfo }
+    { fetchActivity, completeActivityInfo, setGoalInfo }
 )(ActivityComplete);
 
 const styles = StyleSheet.create({
