@@ -24,29 +24,10 @@ export const createUser = (email, password) => {
   return dispatch => {
     dispatch({ type: AUTH_CREATE_USER });
 
-    const tmpString = email.split('@');
-    const username = tmpString[0];
-
     firebase
       .auth()
       .createUserWithEmailAndPassword(email, password)
       .then(user => createUserSuccess(dispatch, user))
-      .then(() => {
-        const { currentUser } = firebase.auth();
-        try {
-          firebase
-            .database()
-            .ref(`/users/${currentUser.uid}/`)
-            .set({
-              profile: {
-                email,
-                password,
-              }
-            });
-        } catch (error) {
-          alert(error);
-        }
-      })
       .catch(() => createUserFail(dispatch));
   };
 };
@@ -204,7 +185,6 @@ export const addUserProfilePic = (image) => {
       });
   };
 };
-
 
 const createUserFail = dispatch => {
   dispatch({ type: AUTH_CREATE_USER_FAIL });

@@ -135,10 +135,10 @@ class Profile extends Component {
             Last Name:  {this.state.lastName}
           </Text>
           <Text style={styles.signupText2}>
-            Height:  {this.state.height}
+            Height:  {this.state.height} cm
           </Text>
           <Text style={styles.signupText2}>
-            Weight:  {this.state.weight}
+            Weight:  {this.state.weight} kg
           </Text>
           <Text style={styles.signupText2}>
             Age:  {this.state.age}
@@ -165,14 +165,14 @@ class Profile extends Component {
         {this.renderCalIntake()}
         {this.renderGoalAmount()}
         <View style={styles.container}>
-          <Text style={styles.signupText}>Had enough fun?</Text>
+        <Button textButton="Edit Profile" onPress={() => this.goToEdit()}>
+            <Text style={styles.signupButton}> Log Out</Text>
+          </Button>
           <Button textButton="Log out" onPress={() => this.logOut()}>
             <Text style={styles.signupButton}> Log Out</Text>
           </Button>
         </View>
       </View>
-
-
     );
   }
 }

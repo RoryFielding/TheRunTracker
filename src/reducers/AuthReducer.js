@@ -20,7 +20,7 @@ const auth = (state = INITIAL_STATE, action) => {
     case AUTH_CREATE_USER:
       return { ...state, ...INITIAL_STATE, loading: true, user: action.payload };
     case AUTH_CREATE_USER_FAIL:
-      return { ...state, errorCreating: 'Creation failed! Please check the credentials!', loading: false };
+      return { ...state, errorCreating: 'Creation failed! Please enter a valid email and an eight character alphanumeric password!', loading: false };
     case AUTH_CREATE_USER_SUCCESS:
       return { ...state, loading: false, error: '' };
     case AUTH_LOGIN_USER:

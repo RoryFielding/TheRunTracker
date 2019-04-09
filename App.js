@@ -1,6 +1,5 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { StyleSheet, View } from 'react-native';
-import { AppLoading, Asset, Font, Icon } from 'expo';
 import firebase from 'firebase';
 import Main from './src/Main';
 

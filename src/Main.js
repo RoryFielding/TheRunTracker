@@ -8,7 +8,9 @@ import reducer from './reducers';
 export default class Main extends Component {
   render() {
     return (
-      <Provider store={createStore(reducer, {}, applyMiddleware(ReduxThunk))}>
+      <Provider store={createStore(reducer,
+       {}, //default application state
+       applyMiddleware(ReduxThunk))}>
         <RouterComponent />
       </Provider>
     );

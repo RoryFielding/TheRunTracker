@@ -1,242 +1,123 @@
 import React, { Component } from 'react';
-import { Text, View, Image, TouchableOpacity, TextInput, ScrollView, Platform, StyleSheet } from 'react-native';
-import Header from '../common/Header';
+import { Text, View, TextInput, Image, StyleSheet } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 import { onSaveChanges } from '../../actions/ProfileActions';
 import ImagePicker from 'react-native-image-picker';
-// import RNFetchBlob from 'react-native-fetch-blob';
-import firebase from 'firebase';
+import Button from '../common/Button';
+import Input from '../common/Input';
 
-// const Blob = RNFetchBlob.polyfill.Blob;
-// const fs = RNFetchBlob.fs;
-// window.XMLHttpRequest = RNFetchBlob.polyfill.XMLHttpRequest;
-// window.Blob = Blob;
 
 class EditProfile extends Component {
   state = {
-    userpic: '',
-    name: '',
-    username: '',
-    web: '',
-    bio: '',
-    phone: '',
-    sex: ''
+    firstName: null,
+    lastName: null,
+    height: null,
+    weight: null
   };
 
   cancelEdit() {
-    Actions.pop();
+    Actions.profile();
   }
 
   componentWillMount() {
+    console.log('le props');
     console.log(this.props);
+    // this.setState({
+    //   firstName: firstName
+    // });
+  }
+
+  onChangeFirstName(text) {
     this.setState({
-      userpic: this.props.userpic,
-      name: this.props.name_profile,
-      username: this.props.username,
-      web: this.props.web,
-      bio: this.props.bio,
-      phone: this.props.phone,
-      sex: this.props.sex
+      firstName: text
     });
   }
 
-  onChangeName(text) {
+  onChangeLastName(text) {
     this.setState({
-      name: text
+      lastName: text
     });
   }
 
-  onChangeUsername(text) {
+  onChangeWeight(text) {
     this.setState({
-      username: text
+      weight: text
     });
   }
 
-  onChangeBio(text) {
+  onChangeHeight(text) {
     this.setState({
-      bio: text
+      height: text
     });
   }
-
-  onChangePhone(text) {
-    this.setState({
-      phone: text
-    });
-  }
-
-  onChangeSex(text) {
-    this.setState({
-      sex: text
-    });
-  }
-
-  onChangeBio(text) {
-    this.setState({
-      bio: text
-    });
-  }
-
-  onChangeWeb(text) {
-    this.setState({
-      web: text
-    });
-  }
-
-  selectPhotoTapped() {
-    const options = {
-      quality: 1.0,
-      maxWidth: 500,
-      maxHeight: 500,
-      storageOptions: {
-        skipBackup: true
-      }
-    };
-
-    ImagePicker.showImagePicker(options, response => {
-      console.log('Response = ', response);
-
-      if (response.didCancel) {
-        console.log('User cancelled photo picker');
-      } else if (response.error) {
-        console.log('ImagePicker Error: ', response.error);
-      } else if (response.customButton) {
-        console.log('User tapped custom button: ', response.customButton);
-      } else {
-        this.onUploadImage(response.uri).then(url => {
-          this.setState({
-            userpic: url
-          });
-        });
-      }
-    });
-  }
-
-  // onUploadImage(uri, mime = 'image/jpeg') {
-  //   return new Promise((resolve, reject) => {
-  //     const uploadUri = Platform.OS === 'ios' ? uri.replace('file://', '') : uri;
-  //     let uploadBlob = null;
-  //     const { currentUser } = firebase.auth();
-
-  //     const imageRef = firebase
-  //       .storage()
-  //       .ref(`/images/${currentUser.uid}`)
-  //       .child('profile_pic');
-
-  //     fs.readFile(uploadUri, 'base64')
-  //       .then(data => {
-  //         return Blob.build(data, { type: `${mime};BASE64` });
-  //       })
-  //       .then(blob => {
-  //         uploadBlob = blob;
-  //         return imageRef.put(blob, { contentType: mime });
-  //       })
-  //       .then(() => {
-  //         uploadBlob.close();
-  //         return imageRef.getDownloadURL();
-  //       })
-  //       .then(url => {
-  //         resolve(url);
-  //       })
-  //       .catch(error => {
-  //         reject(error);
-  //       });
-  //   });
-  // }
 
   onSaveChanges() {
     this.props.onSaveChanges(
-      this.state.userpic,
-      this.state.name,
-      this.state.username,
-      this.state.web,
-      this.state.bio,
-      this.state.phone,
-      this.state.sex
+      this.state.firstName,
+      this.state.lastName,
+      this.state.height,
+      this.state.weight,
     );
   }
 
   render() {
     return (
       <View style={styles.container}>
-        <Header title="Edit profile" onNext={this.onSaveChanges.bind(this)} onCancel={this.cancelEdit.bind(this)} />
-        <ScrollView>
-          <View style={styles.pic}>
-            <Image source={{ uri: this.state.userpic }} style={{ width: 100, height: 100, borderRadius: 50 }} />
-            <TouchableOpacity style={{ margin: 5 }} onPress={this.selectPhotoTapped.bind(this)}>
-              <View>
-                <Text style={{ fontSize: 15, color: '#00a8ff' }}>Change profile pic</Text>
-              </View>
-            </TouchableOpacity>
-          </View>
+      <Image style={{ width: 260, height: 160 }}
+          source={require('../../../assets/images/icon3.png')} />
+          <Text style={styles.titleText}>Edit Profile</Text>
           <View style={styles.publicInfo}>
             <View style={{ flexDirection: 'row' }}>
-              <Text style={{ marginTop: 10, marginRight: 5, width: 80, height: 40, fontSize: 15 }}> Name </Text>
+              <Text style={styles.text}> First Name </Text>
               <TextInput
-                style={{ margin: 5, width: 250, height: 40, borderBottomColor: '#dcdde1', borderBottomWidth: 1 }}
+                style={styles.textInput}
                 value={this.state.name}
-                onChangeText={this.onChangeName.bind(this)}
+                onChangeText={this.onChangeFirstName.bind(this)}
                 autoCapitalize="none"
                 autoCorrect={false}
               />
             </View>
             <View style={{ flexDirection: 'row' }}>
-              <Text style={{ marginTop: 15, marginRight: 5, width: 80, height: 40, fontSize: 15 }}> Username </Text>
+            <Text style={styles.text}>  Last Name </Text>
               <TextInput
-                style={{ margin: 5, width: 250, height: 40, borderBottomColor: '#dcdde1', borderBottomWidth: 1 }}
+                style={styles.textInput}
+                placeholder={this.state.lastName}
                 value={this.state.username}
-                onChangeText={this.onChangeUsername.bind(this)}
+                onChangeText={this.onChangeLastName.bind(this)}
                 autoCapitalize="none"
                 autoCorrect={false}
               />
             </View>
             <View style={{ flexDirection: 'row' }}>
-              <Text style={{ marginTop: 15, marginRight: 5, width: 80, height: 40, fontSize: 15 }}> Web </Text>
+            <Text style={styles.text}>  Height </Text>
               <TextInput
-                style={{ margin: 5, width: 250, height: 40, borderBottomColor: '#dcdde1', borderBottomWidth: 1 }}
+               style={styles.textInput}
                 value={this.state.web}
-                onChangeText={this.onChangeWeb.bind(this)}
+                onChangeText={this.onChangeHeight.bind(this)}
                 autoCapitalize="none"
                 autoCorrect={false}
               />
             </View>
             <View style={{ flexDirection: 'row' }}>
-              <Text style={{ marginTop: 15, marginRight: 5, width: 80, height: 40, fontSize: 15 }}> Bio </Text>
+            <Text style={styles.text}>  Weight </Text>
               <TextInput
-                style={{ margin: 5, width: 250, height: 40 }}
+                style={styles.textInput}
                 value={this.state.bio}
-                onChangeText={this.onChangeBio.bind(this)}
+                onChangeText={this.onChangeWeight.bind(this)}
                 autoCapitalize="none"
                 autoCorrect={false}
               />
             </View>
           </View>
-          <View style={styles.privateInfo}>
-            <Text style={{ fontSize: 15, fontWeight: 'bold', marginTop: 5, marginBottom: 15, marginLeft: 5 }}>
-              Private info
-            </Text>
-            <View style={{ flexDirection: 'row' }}>
-              <Text style={{ marginTop: 15, marginRight: 5, width: 80, height: 40, fontSize: 15 }}> Phone </Text>
-              <TextInput
-                style={{ margin: 5, width: 250, height: 40, borderBottomColor: '#dcdde1', borderBottomWidth: 1 }}
-                value={this.state.phone}
-                onChangeText={this.onChangePhone.bind(this)}
-                autoCapitalize="none"
-                autoCorrect={false}
-              />
-            </View>
-            <View style={{ flexDirection: 'row' }}>
-              <Text style={{ marginTop: 15, marginRight: 5, width: 80, height: 40, fontSize: 15 }}> Sex </Text>
-              <TextInput
-                style={{ margin: 5, width: 250, height: 40, borderBottomColor: '#dcdde1', borderBottomWidth: 1 }}
-                value={this.state.sex}
-                onChangeText={this.onChangeSex.bind(this)}
-                autoCapitalize="none"
-                autoCorrect={false}
-              />
-            </View>
+          <View style={styles.container}>
+          <Button textButton="Cancel" onPress={() => this.cancelEdit()}>
+            <Text style={styles.signupButton}> Cancel</Text>
+          </Button>
+          <Button textButton="Save" onPress={() => this.onSaveChanges.bind(this)}>
+            <Text style={styles.signupButton}> Save</Text>
+          </Button>
           </View>
-        </ScrollView>
       </View>
     );
   }
@@ -249,8 +130,10 @@ export default connect(
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: '#1C272A',
     flex: 1,
-    backgroundColor: 'white'
+    alignItems: 'center',
+    justifyContent: 'center'
   },
   pic: {
     width: '100%',
@@ -270,5 +153,31 @@ const styles = StyleSheet.create({
   privateInfo: {
     width: '100%',
     padding: 15
+  },
+  titleText: {
+    color: 'rgba(255,255,255,0.6)',
+    fontSize: 32,
+    top: -35,
+    borderColor: 'black'
+},
+  text: {
+    color: 'rgba(255,255,255,0.6)',
+    fontSize: 16,
+    marginTop: 15, 
+    marginRight: 5, 
+    width: 80, 
+    height: 40,
+  },
+  textInput: {
+    width:250,
+    backgroundColor:'#0C2331',
+    borderRadius: 25,
+    paddingHorizontal:16,
+    fontSize:16,
+    color:'#ffffff',
+    marginVertical: 10,
+    paddingVertical: 16,
+    margin: 5, 
+    height: 50
   }
 });

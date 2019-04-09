@@ -127,16 +127,6 @@ class Record extends Component {
       this.setState({ speed: 0 })
     }
 
-    //Calculate calories burned placeholder
-    //Men use the following formula:
-    //Calories Burned = [(Age x 0.2017) — (Weight x 0.09036) + (Heart Rate x 0.6309) — 55.0969] x Time / 4.184.
-    //Women use the following formula:
-    //Calories Burned = [(Age x 0.074) — (Weight x 0.05741) + (Heart Rate x 0.4472) — 20.4022] x Time / 4.184.
-
-    //Less accurate:
-    //Running (total calories spent per km) 
-    //.75 x your weight (in lbs.)
-
     //total cal burned in a km
     var kCal = (0.75 * 65) / 1000
     var mTravlled = (distanceTravelled * 1000)

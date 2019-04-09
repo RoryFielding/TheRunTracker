@@ -29,7 +29,7 @@ import EditProfile from './components/profile/EditProfile';
 
 // const HomeIcon = () => <Ionicons name="md-home" size={25} />;
 // const ExploreIcon = () => <Ionicons name="md-search" size={25} />;
-const AddPostIcon = () => <EvilIcons name="plus" size={25} />;
+const ActivityIcon = () => <EvilIcons name="plus" size={25} />;
 const ProfileIcon = () => <Icon name="user" size={25} />;
 const AchieveIcon = () => <Ionicons name="ios-trophy" size={25} />;
 const SettingsIcon = () => <Ionicons name="ios-cog" size={25} />;
@@ -54,7 +54,7 @@ const RouterComponent = () => (
         <Tabs showLabel={false}>
         <Scene key="profile" component={Profile} icon={ProfileIcon} hideNavBar />
           <Scene key="achievements" component={Achievements} icon={AchieveIcon} hideNavBar />
-          <Scene key="record" component={Record} icon={AddPostIcon} hideNavBar />
+          <Scene key="record" component={Record} icon={ActivityIcon} hideNavBar />
           <Scene key="stats" component={Stats} icon={StatsIcon} hideNavBar />
           <Scene key="settings" component={Settings} icon={SettingsIcon} hideNavBar/>
         </Tabs>

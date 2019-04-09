@@ -40,31 +40,40 @@ class Achievements extends Component {
 
         <View style={styles.container} >
           <Text style={styles.title2Text}>
-            Personal Best
+            Personal Best Distance Times
         </Text>
           <Text style={styles.signupText}>
-            Time:  {this.state.pbTimeMin} mins {this.state.pbTimeSec} seconds
+            5km:  29 mins 17 seconds
         </Text>
           <Text style={styles.signupText}>
-            Distance:  {this.state.pbDist} km
+            10km:  55 mins 43 seconds
       </Text>
           <Text style={styles.signupText}>
-            Calories Burned:  {this.state.pbCal} kCal
+            15km:  0
+      </Text>
+      <Text style={styles.signupText}>
+            20km:  0
+      </Text>
+      <Text style={styles.signupText}>
+            Marathon:  0
       </Text>
         </View>
 
         <View style={styles.container} >
           <Text style={styles.title2Text}>
-            Overall
+          Best Achievements
         </Text>
           <Text style={styles.signupText}>
-            Time:  {this.state.overTime} mins
+          Highest calories burned:  452 kCal
         </Text>
           <Text style={styles.signupText}>
-            Distance:  {this.state.overDist} km
+          Longest time spent running:  55 mins 43 seconds
       </Text>
           <Text style={styles.signupText}>
-            Calories Burned:  {this.state.overCal} kCal
+          Furthest distance:  10 km
+      </Text>
+      <Text style={styles.signupText}>
+          Highest speed:  16.07 km/h
       </Text>
         </View>
       </View>

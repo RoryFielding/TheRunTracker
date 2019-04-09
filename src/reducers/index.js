@@ -6,5 +6,5 @@ import activity from './ActivityReducer';
 export default combineReducers({
   auth: auth,
   profile: profile,
-  activity: activity
+  activity: activity,
 });

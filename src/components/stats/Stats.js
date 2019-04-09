@@ -94,8 +94,8 @@ class Stats extends Component {
         labels: dateData,
         datasets: [{
           data: distanceData,
-          color: (opacity = 1) => '#4CA4B0', // optional
-          strokeWidth: 2 // optional
+          color: (opacity = 1) => '#4CA4B0', 
+          strokeWidth: 2 
         }]
       }
 

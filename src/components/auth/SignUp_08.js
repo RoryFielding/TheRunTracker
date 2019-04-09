@@ -370,7 +370,7 @@ class SignUp_08 extends React.Component {
                     <View style={styles.textBox2}>
                         <Text style={styles.signupText}>BMI: {parseFloat(this.state.BMI).toFixed(2)} </Text>
                         <Text style={styles.signupText}>You are in the BMI range: {this.displayBMIMessage(this.state.BMI)}</Text>
-                        <Text style={styles.signupText}>Based on your current weight, height, age and lifestyle, Runtracker
+                        <Text style={styles.signupText}>Based on your current weight, height, age, gender and lifestyle, Runtracker
             has calculated your daily calorie needs to be {parseFloat(this.state.TEE).toFixed(2)} kCal. </Text>
             <Text style={styles.signupText}>{this.displayBurnMessage(this.state.loseChecked, this.state.maintainChecked, this.state.gainChecked)}</Text>
                         <Text style={styles.signupText}>If you have any underlying

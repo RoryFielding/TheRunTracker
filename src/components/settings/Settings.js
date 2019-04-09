@@ -82,13 +82,6 @@ export default class Settings extends Component {
                     onPress={() => this.checkLocationBox()}
                 />
                 <CheckBox
-                    title='Health Data'
-                    containerStyle={styles.checkBox}
-                    checked={this.state.healthData}
-                    textStyle={styles.signupText}
-                    onPress={() => this.checkHealthBox()}
-                />
-                <CheckBox
                     title='Audio Cues'
                     containerStyle={styles.checkBox}
                     checked={this.state.audioCues}
