@@ -19,7 +19,7 @@ export default Input;
 const styles = StyleSheet.create({
   input: {
     width:300,
-    backgroundColor: Platform.OS === 'ios' ? '#0C2331' : '#1C272A',
+    backgroundColor: Platform.OS === 'ios' ? '#0C2331' : '#0A1D29',
     borderRadius: 25,
     paddingHorizontal:16,
     fontSize:16,
