@@ -1,5 +1,5 @@
 import React from 'react';
-import { TextInput, StyleSheet } from 'react-native';
+import { TextInput, StyleSheet, Platform } from 'react-native';
 
 const Input = props => (
   <TextInput
@@ -19,7 +19,7 @@ export default Input;
 const styles = StyleSheet.create({
   input: {
     width:300,
-    backgroundColor:'#0C2331',
+    backgroundColor: Platform.OS === 'ios' ? '#0C2331' : '#1C272A',
     borderRadius: 25,
     paddingHorizontal:16,
     fontSize:16,

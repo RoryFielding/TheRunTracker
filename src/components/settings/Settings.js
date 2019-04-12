@@ -106,7 +106,7 @@ export default class Settings extends Component {
                 </View>
                 <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
                     <CheckBox
-                        title='Pace'
+                        title='Speed'
                         containerStyle={styles.checkBox}
                         checked={this.state.pace}
                         textStyle={styles.signupText}

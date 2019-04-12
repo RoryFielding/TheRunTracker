@@ -7,6 +7,7 @@ import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 import { loginUser } from '../../actions/AuthActions';
 import Logo from '../../../assets/Logo';
+import { Platform } from 'react-native'; 
 
 class Login extends Component {
   state = {
@@ -79,7 +80,7 @@ export default connect(
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#1C272A',
+    backgroundColor: Platform.OS === 'ios' ? '#1C272A' : '#0C232D',
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center'

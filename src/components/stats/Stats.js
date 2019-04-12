@@ -52,6 +52,7 @@ class Stats extends Component {
 
       var dataArray = [];
 
+      //iterate over object and store activity from database
       for (var key in this.state.activity) {
         if (this.state.activity.hasOwnProperty(key)) {
           var obj = this.state.activity[key];
