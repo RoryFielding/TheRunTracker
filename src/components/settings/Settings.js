@@ -126,17 +126,17 @@ export default class Settings extends Component {
 }
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: '#1C272A',
+        backgroundColor: Platform.OS === 'ios' ? '#1C272A' : '#0C232D',
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center'
     },
     checkBox: {
-        backgroundColor: '#1C272A',
+        backgroundColor: Platform.OS === 'ios' ? '#1C272A' : '#0C232D',
         width: 125,
         flexDirection: 'row',
         flexWrap: 'wrap',
-        borderColor: '#1C272A',
+        borderColor: Platform.OS === 'ios' ? '#1C272A' : '#0C232D',
         top: -55
     },
     tccheckBox: {

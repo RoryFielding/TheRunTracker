@@ -74,7 +74,7 @@ export default connect(
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: '#1C272A',
+        backgroundColor: Platform.OS === 'ios' ? '#1C272A' : '#0C232D',
         flexGrow: 1,
         alignItems: 'center',
         justifyContent: 'center',

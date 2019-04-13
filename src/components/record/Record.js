@@ -350,7 +350,7 @@ class Record extends Component {
                   </Expo.MapView>
                   <View style={styles.map}>
                     <View style={{ flex: 1 }}>
-                      <View style={{ flex: 2, backgroundColor: '#1C272A' }} >
+                      <View style={{ flex: 2.3, backgroundColor: Platform.OS === 'ios' ? '#1C272A' : '#0C232D',}} >
                         <Image style={{ width: 260, height: 160, marginHorizontal: 60, marginTop: -40 }}
                           source={require('../../../assets/images/icon3.png')} />
                       </View>
@@ -481,7 +481,7 @@ const styles = StyleSheet.create({
     bottom: -20,
     justifyContent: 'center',
     flexDirection: 'row',
-    backgroundColor: '#1C272A',
+    backgroundColor: Platform.OS === 'ios' ? '#1C272A' : '#0C232D',
     borderRadius: 20,
   },
   rowWrapper: {
@@ -514,10 +514,11 @@ const styles = StyleSheet.create({
     width: 180
   },
   stats: {
-    marginVertical: -30,
+    marginVertical: Platform.OS === 'ios' ?  -30 : -105,
     height: 80,
     width: 180,
     bottom: 370,
+    backgroundColor: Platform.OS === 'ios' ? '#1C272A' : '#0C232D',
   },
   mapBackground1: {
     flex: 1,

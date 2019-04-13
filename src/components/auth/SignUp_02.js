@@ -132,11 +132,11 @@ export default connect(
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#1C272A',
+    backgroundColor: Platform.OS === 'ios' ? '#1C272A' : '#0C232D',
     flexGrow: 1,
   },
   container2: {
-    backgroundColor: '#1C272A',
+    backgroundColor: Platform.OS === 'ios' ? '#1C272A' : '#0C232D',
     flexGrow: 1,
     justifyContent: 'center',
     alignItems: 'center'
@@ -193,11 +193,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row'
   },
   checkBox: {
-    backgroundColor: '#1C272A',
+    backgroundColor: Platform.OS === 'ios' ? '#1C272A' : '#0C232D',
     width: 140,
     flexDirection: 'row',
     flexWrap: 'wrap',
-    borderColor: '#1C272A',
+    borderColor: Platform.OS === 'ios' ? '#1C272A' : '#0C232D',
   },
   textBox: {
     width: 320,

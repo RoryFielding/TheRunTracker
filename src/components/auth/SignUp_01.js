@@ -174,24 +174,24 @@ export default connect(
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: '#1C272A',
+        backgroundColor: Platform.OS === 'ios' ? '#1C272A' : '#0C232D',
         flexGrow: 1,
     },
     container2: {
-        backgroundColor: '#1C272A',
+        backgroundColor: Platform.OS === 'ios' ? '#1C272A' : '#0C232D',
         flexGrow: 1,
         justifyContent: 'center',
         alignItems: 'center'
     },
     checkBox: {
-        backgroundColor: '#1C272A',
+        backgroundColor: Platform.OS === 'ios' ? '#1C272A' : '#0C232D',
         width: 125,
         flexDirection: 'row',
         flexWrap: 'wrap',
-        borderColor: '#1C272A',
+        borderColor: Platform.OS === 'ios' ? '#1C272A' : '#0C232D',
     },
     tccheckBox: {
-        backgroundColor: '#1C272A',
+        backgroundColor: Platform.OS === 'ios' ? '#1C272A' : '#0C232D',
         width: 45,
         height: 45,
         borderColor: '#1C272A',
@@ -252,7 +252,7 @@ const styles = StyleSheet.create({
         textAlign: 'center'
     },
     tcView: {
-        backgroundColor: '#1C272A',
+        backgroundColor: Platform.OS === 'ios' ? '#1C272A' : '#0C232D',
         flexGrow: 1,
         alignItems: 'center',
         justifyContent: 'center',
