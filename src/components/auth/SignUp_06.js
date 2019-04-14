@@ -3,7 +3,8 @@ import {
     StyleSheet,
     Text,
     View,
-    ScrollView
+    ScrollView,
+    Platform
 } from 'react-native';
 import { CheckBox } from 'react-native-elements';
 import Button from '../common/Button';

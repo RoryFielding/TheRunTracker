@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, StyleSheet, Image, TouchableHighlight, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { Platform, Text, View, StyleSheet, Image, TouchableHighlight, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { Location, Permissions } from 'expo';
 import TimeFormatter from 'minutes-seconds-milliseconds';
 import pick from 'object.pick';

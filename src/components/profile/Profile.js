@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, Image, TouchableOpacity, StyleSheet, ActivityIndicator } from 'react-native';
+import { Platform, Text, View, Image, TouchableOpacity, StyleSheet, ActivityIndicator } from 'react-native';
 import { connect } from 'react-redux';
 import { fetchProfile } from '../../actions/ProfileActions';
 import { fetchStats } from '../../actions/ActivityActions';

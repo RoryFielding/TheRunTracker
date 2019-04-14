@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, ActivityIndicator, StyleSheet } from 'react-native';
+import { Platform, View, Text, ActivityIndicator, StyleSheet } from 'react-native';
 import Button from '../common/Button';
 import Input from '../common/Input';
 import Title from '../common/Title';
@@ -7,7 +7,6 @@ import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 import { loginUser } from '../../actions/AuthActions';
 import Logo from '../../../assets/Logo';
-import { Platform } from 'react-native'; 
 
 class Login extends Component {
   state = {

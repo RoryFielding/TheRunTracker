@@ -5,6 +5,7 @@ import {
     Text,
     View,
     Image,
+    Platform
 } from 'react-native';
 
 export default class Settings extends Component {

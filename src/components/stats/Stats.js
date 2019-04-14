@@ -5,7 +5,8 @@ import {
   View,
   Image,
   ActivityIndicator,
-  Picker
+  Picker,
+  Platform
 } from 'react-native';
 import { fetchStats } from '../../actions/ActivityActions';
 import { connect } from 'react-redux';

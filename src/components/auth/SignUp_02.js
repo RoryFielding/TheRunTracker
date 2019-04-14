@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ScrollView, View, Text, StyleSheet } from 'react-native';
+import { Platform, ScrollView, View, Text, StyleSheet } from 'react-native';
 import { CheckBox } from 'react-native-elements';
 import Button from '../common/Button';
 import { Actions } from 'react-native-router-flux';

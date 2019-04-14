@@ -3,7 +3,7 @@
   "expoServerPort": null,
   "packagerPort": null,
   "packagerPid": null,
-  "expoServerNgrokUrl": null,
-  "packagerNgrokUrl": null,
-  "ngrokPid": null
+  "expoServerNgrokUrl": "https://6m-der.roryfielding.theruntracker.exp.direct",
+  "packagerNgrokUrl": "https://packager.6m-der.roryfielding.theruntracker.exp.direct",
+  "ngrokPid": 35657
 }

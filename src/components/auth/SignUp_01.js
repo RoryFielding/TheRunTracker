@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ScrollView, View, TouchableOpacity, Text, ActivityIndicator, StyleSheet } from 'react-native';
+import { Platform, ScrollView, View, TouchableOpacity, Text, ActivityIndicator, StyleSheet } from 'react-native';
 import Button from '../common/Button';
 import Input from '../common/Input';
 import { Actions } from 'react-native-router-flux';
@@ -75,6 +75,10 @@ class SignUp_01 extends Component {
         }
     };
 
+    onPressTC = () => {
+        Actions.signuptc();
+    };
+
     onGoBack = () => {
         Actions.pop();
     };
@@ -141,7 +145,7 @@ class SignUp_01 extends Component {
                     />
                     <View style={styles.tcView}>
                         <Text style={styles.TcTextCont}>I have read and accept the</Text>
-                        <TouchableOpacity onPress={() => this.props.navigation.navigate('AuthLoading')}>
+                        <TouchableOpacity onPress={this.onPressTC.bind(this)}>
                             <Text style={styles.tcButton}> terms and conditions</Text></TouchableOpacity>
                         <CheckBox
                             checked={this.state.tcchecked}

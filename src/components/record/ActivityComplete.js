@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ScrollView, View, Image, Text, StyleSheet, ActivityIndicator } from 'react-native';
+import { Platform, ScrollView, View, Image, Text, StyleSheet, ActivityIndicator } from 'react-native';
 import TimeFormatter from 'minutes-seconds-milliseconds';
 import { fetchActivity, completeActivityInfo, setGoalInfo } from '../../actions/ActivityActions';
 import { connect } from 'react-redux';

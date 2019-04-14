@@ -1,5 +1,5 @@
 import React from 'react';
-import { ScrollView, View, Text, StyleSheet, ActivityIndicator } from 'react-native';
+import { Platform, ScrollView, View, Text, StyleSheet, ActivityIndicator } from 'react-native';
 import { CheckBox } from 'react-native-elements';
 import { connect } from 'react-redux';
 import Button from '../common/Button';
